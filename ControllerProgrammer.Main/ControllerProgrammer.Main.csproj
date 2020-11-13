@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>ControllerProgrammer</AssemblyName>
+    <RootNamespace>ControllerProgrammer.Main</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <!--<PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />-->
+    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ControllerProgrammer.ProgramForm\ControllerProgrammer.ProgramForm.csproj" />
+  </ItemGroup>
+</Project>
