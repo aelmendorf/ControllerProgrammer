@@ -5,6 +5,8 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>ControllerProgrammer</AssemblyName>
     <RootNamespace>ControllerProgrammer.Main</RootNamespace>
+    <StartupObject>ControllerProgrammer.Main.App</StartupObject>
+    <ApplicationIcon>Images\seti_logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />-->
@@ -12,5 +14,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ControllerProgrammer.ProgramForm\ControllerProgrammer.ProgramForm.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
 </Project>
