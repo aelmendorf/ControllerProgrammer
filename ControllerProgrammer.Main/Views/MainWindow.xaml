@@ -1,10 +1,13 @@
-﻿<Window x:Class="ControllerProgrammer.Main.Views.MainWindow"
+﻿<mah:MetroWindow x:Class="ControllerProgrammer.Main.Views.MainWindow"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:common="clr-namespace:ControllerProgrammer.Interfaces.Constants;assembly=ControllerProgrammer.Interfaces"
         xmlns:prism="http://prismlibrary.com/"
+        GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{Binding Title}" Height="350" Width="525" >
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" />
+        <ContentControl prism:RegionManager.RegionName="{x:Static common:Regions.ProgramRegion}" />
     </Grid>
-</Window>
+</mah:MetroWindow>

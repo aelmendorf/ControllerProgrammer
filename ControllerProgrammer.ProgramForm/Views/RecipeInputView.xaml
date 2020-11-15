@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ControllerProgrammer.ProgramForm.Views.RecipeInputView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ControllerProgrammer.ProgramForm.Views"
+             xmlns:common="clr-namespace:ControllerProgrammer.Interfaces.Constants;assembly=ControllerProgrammer.Interfaces"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DockPanel Background="#FFBDB1B1">
+        <StackPanel DockPanel.Dock="Top">
+            <StackPanel>
+                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 1 Parameters</Label>
+                <WrapPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
+                        <mah:NumericUpDown Value="{Binding Led1DelayTime}"></mah:NumericUpDown>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
+                        <mah:NumericUpDown StringFormat="N" 
+                                           Value="{Binding Led1RunTime}"/>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
+                        <ComboBox ItemsSource="{Binding LED1PowerDensites}"/>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+
+            <StackPanel>
+                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 2 Parameters</Label>
+                <WrapPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
+                        <mah:NumericUpDown Value="{Binding Led2DelayTime}"></mah:NumericUpDown>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
+                        <mah:NumericUpDown StringFormat="N" 
+                                           Value="{Binding Led2RunTime}"/>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
+                        <ComboBox ItemsSource="{Binding LED2PowerDensites}"/>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+
+            <StackPanel>
+                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 3 Parameters</Label>
+                <WrapPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
+                        <mah:NumericUpDown Value="{Binding Led3DelayTime}"></mah:NumericUpDown>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
+                        <mah:NumericUpDown StringFormat="N" 
+                                           Value="{Binding Led3RunTime}"/>
+                    </StackPanel>
+                    <StackPanel Width="150" Margin="50,5,50,5">
+                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
+                        <ComboBox ItemsSource="{Binding LED3PowerDensites}"/>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <WrapPanel Margin="2,0,0,010">
+                <Button Content="Program Controller"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Center"
+                    Height="50" Background="#FFC36363"/>
+                <TextBlock Text="{Binding ProgramStatus}" HorizontalAlignment="Center"
+                           FontSize="16"
+                           VerticalAlignment="Center">Program Status</TextBlock>
+            </WrapPanel>
+
+        </StackPanel>
+    </DockPanel>
+
+</UserControl>

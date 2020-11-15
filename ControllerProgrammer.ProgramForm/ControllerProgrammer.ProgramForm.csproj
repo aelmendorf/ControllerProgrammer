@@ -6,6 +6,11 @@
   </PropertyGroup>
   <ItemGroup>
     <!--<PackageReference Include="Prism.Wpf" Version="7.2.0.1422" />-->
+    <PackageReference Include="MahApps.Metro" Version="2.3.4" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ControllerProgrammer.Interfaces\ControllerProgrammer.Interfaces.csproj" />
+    <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
   </ItemGroup>
 </Project>

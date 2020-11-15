@@ -15,10 +15,10 @@ using System.Windows.Shapes;
 
 namespace ControllerProgrammer.ProgramForm.Views {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for DataInputView.xaml
     /// </summary>
-    public partial class ViewA : UserControl {
-        public ViewA() {
+    public partial class DataInputView : UserControl {
+        public DataInputView() {
             InitializeComponent();
         }
     }
