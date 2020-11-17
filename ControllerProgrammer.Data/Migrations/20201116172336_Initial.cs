@@ -6,24 +6,29 @@ namespace ControllerProgrammer.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "controlDb");
+
             migrationBuilder.CreateTable(
                 name: "Leds",
+                schema: "controlDb",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    LedId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Wavelength = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Leds", x => x.Id);
+                    table.PrimaryKey("PK_Leds", x => x.LedId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "PowerDensities",
+                schema: "controlDb",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    PowerDensityId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     LedId = table.Column<int>(type: "INTEGER", nullable: false),
                     Current = table.Column<double>(type: "REAL", nullable: false),
@@ -31,16 +36,19 @@ namespace ControllerProgrammer.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PowerDensities", x => x.Id);
+                    table.PrimaryKey("PK_PowerDensities", x => x.PowerDensityId);
                     table.ForeignKey(
                         name: "FK_PowerDensities_Leds_LedId",
                         column: x => x.LedId,
+                        principalSchema: "controlDb",
                         principalTable: "Leds",
-                        principalColumn: "Id");
+                        principalColumn: "LedId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_PowerDensities_LedId",
+                schema: "controlDb",
                 table: "PowerDensities",
                 column: "LedId");
         }
@@ -48,10 +56,12 @@ namespace ControllerProgrammer.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PowerDensities");
+                name: "PowerDensities",
+                schema: "controlDb");
 
             migrationBuilder.DropTable(
-                name: "Leds");
+                name: "Leds",
+                schema: "controlDb");
         }
     }
 }

@@ -6,6 +6,8 @@ using ControllerProgrammer.ProgramForm;
 using ControllerProgrammer.Data.Model;
 using Prism.DryIoc;
 using DryIoc;
+using ControllerProgrammer.Common.Interfaces;
+using ControllerProgrammer.Common.Services;
 
 namespace ControllerProgrammer.Main {
     /// <summary>
@@ -22,6 +24,8 @@ namespace ControllerProgrammer.Main {
 
             //container.Register<ProgrammerContext>(setup:A)
             container.Register<ProgrammerContext>(setup: Setup.With(allowDisposableTransient: true));
+            containerRegistry.Register<IControllerDataManagment, ControllerDataManagment>();
+            containerRegistry.Register<IControllerManager, ControllerManager>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ControllerProgrammer.Interfaces.Constants {
+namespace ControllerProgrammer.Common.Constants {
     public static class Regions {
         public static string ProgramRegion => "ProgramRegion";
         public static string RecipeRegion => "RecipeRegion";

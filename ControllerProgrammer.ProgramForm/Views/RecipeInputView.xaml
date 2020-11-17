@@ -4,12 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControllerProgrammer.ProgramForm.Views"
-             xmlns:common="clr-namespace:ControllerProgrammer.Interfaces.Constants;assembly=ControllerProgrammer.Interfaces"
+             xmlns:common="clr-namespace:ControllerProgrammer.Common.Constants;assembly=ControllerProgrammer.Common"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="400" d:DesignWidth="750">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <DockPanel Background="#FFBDB1B1">
         <StackPanel DockPanel.Dock="Top">
             <StackPanel>
@@ -17,7 +24,7 @@
                 <WrapPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
-                        <mah:NumericUpDown Value="{Binding Led1DelayTime}"></mah:NumericUpDown>
+                        <mah:NumericUpDown Value="{Binding Led1DelayTime}" Minimum="0"/>
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
@@ -26,7 +33,20 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED1PowerDensites}"/>
+                        <ComboBox ItemsSource="{Binding LED1PowerDensites}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="gd" TextElement.Foreground="Black">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Current,StringFormat={}{0:F1}}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding PowerDenisty,StringFormat={}{0:E1}}" Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                 </WrapPanel>
             </StackPanel>
@@ -45,7 +65,20 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED2PowerDensites}"/>
+                        <ComboBox ItemsSource="{Binding LED2PowerDensites}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="gd" TextElement.Foreground="Black">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Current,StringFormat=E}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding PowerDenisty,StringFormat=E}" Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                 </WrapPanel>
             </StackPanel>
@@ -64,7 +97,27 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED3PowerDensites}"/>
+                        <ComboBox ItemsSource="{Binding LED3PowerDensites}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="gd" TextElement.Foreground="Black">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} Current:{0} + PD:{1}">
+                                                    <Binding Path="Current"/>
+                                                    <Binding Path="PowerDenisty"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                 </WrapPanel>
             </StackPanel>
@@ -73,9 +126,10 @@
         <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <WrapPanel Margin="2,0,0,010">
                 <Button Content="Program Controller"
-                    Margin="0,0,10,0"
-                    HorizontalAlignment="Center"
-                    Height="50" Background="#FFC36363"/>
+                        IsEnabled="{Binding ControllerConnected}"
+                        Margin="0,0,10,0"
+                        HorizontalAlignment="Center"
+                        Height="50" Background="#FFC36363"/>
                 <TextBlock Text="{Binding ProgramStatus}" HorizontalAlignment="Center"
                            FontSize="16"
                            VerticalAlignment="Center">Program Status</TextBlock>

@@ -7,7 +7,7 @@ using Prism.Regions;
 using Prism.Mvvm;
 
 
-namespace ControllerProgrammer.Interfaces {
+namespace ControllerProgrammer.Common {
     public abstract class ProgrammerViewModelBase : BindableBase, IRegionMemberLifetime {
         public abstract bool KeepAlive { get; }
     }

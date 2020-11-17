@@ -2,7 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using ControllerProgrammer.Interfaces.Constants;
+using ControllerProgrammer.Common.Constants;
 
 namespace ControllerProgrammer.ProgramForm {
     public class ProgramFormModule : IModule {

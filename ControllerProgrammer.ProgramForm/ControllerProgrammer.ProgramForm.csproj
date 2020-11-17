@@ -10,7 +10,8 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ControllerProgrammer.Interfaces\ControllerProgrammer.Interfaces.csproj" />
+    <ProjectReference Include="..\ControllerProgrammer.Data\ControllerProgrammer.Data.csproj" />
+    <ProjectReference Include="..\ControllerProgrammer.Interfaces\ControllerProgrammer.Common.csproj" />
     <PackageReference Include="AsyncAwaitBestPractices.MVVM" Version="5.0.2" />
   </ItemGroup>
 </Project>

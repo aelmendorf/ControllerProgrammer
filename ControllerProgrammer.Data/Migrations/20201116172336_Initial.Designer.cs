@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ControllerProgrammer.Data.Migrations
 {
     [DbContext(typeof(ProgrammerContext))]
-    [Migration("20201114165139_Initial")]
+    [Migration("20201116172336_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -19,21 +19,21 @@ namespace ControllerProgrammer.Data.Migrations
 
             modelBuilder.Entity("ControllerProgrammer.Data.Model.Led", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("LedId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Wavelength")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("LedId");
 
-                    b.ToTable("Leds");
+                    b.ToTable("Leds", "controlDb");
                 });
 
             modelBuilder.Entity("ControllerProgrammer.Data.Model.PowerDensity", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PowerDensityId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -46,11 +46,11 @@ namespace ControllerProgrammer.Data.Migrations
                     b.Property<double>("PowerDenisty")
                         .HasColumnType("REAL");
 
-                    b.HasKey("Id");
+                    b.HasKey("PowerDensityId");
 
                     b.HasIndex("LedId");
 
-                    b.ToTable("PowerDensities");
+                    b.ToTable("PowerDensities", "controlDb");
                 });
 
             modelBuilder.Entity("ControllerProgrammer.Data.Model.PowerDensity", b =>
@@ -58,7 +58,8 @@ namespace ControllerProgrammer.Data.Migrations
                     b.HasOne("ControllerProgrammer.Data.Model.Led", "Led")
                         .WithMany("PowerDensities")
                         .HasForeignKey("LedId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Led");
                 });

@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControllerProgrammer.ProgramForm.Views"
-             xmlns:common="clr-namespace:ControllerProgrammer.Interfaces.Constants;assembly=ControllerProgrammer.Interfaces"
+             xmlns:common="clr-namespace:ControllerProgrammer.Common.Constants;assembly=ControllerProgrammer.Common"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
