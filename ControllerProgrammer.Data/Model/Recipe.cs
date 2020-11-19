@@ -18,8 +18,8 @@ namespace ControllerProgrammer.Data.Model {
         public int LedId { get; set; }
         [ForeignKey("LedId")]
         public virtual Led Led { get; set; }
-        public double Current { get; set; }
-        public double PowerDenisty { get; set; }
+        public int Current { get; set; }
+        public int PowerDenisty { get; set; }
     }
 
     public class Led {

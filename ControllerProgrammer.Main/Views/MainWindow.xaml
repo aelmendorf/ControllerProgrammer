@@ -6,7 +6,7 @@
         xmlns:prism="http://prismlibrary.com/"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="Controller Programmer" Height="470" Width="800" ResizeMode="NoResize">
+        Title="Controller Programmer" Height="470" Width="800" ResizeMode="CanResize">
     <Grid>
         <ContentControl prism:RegionManager.RegionName="{x:Static common:Regions.ProgramRegion}" />
     </Grid>

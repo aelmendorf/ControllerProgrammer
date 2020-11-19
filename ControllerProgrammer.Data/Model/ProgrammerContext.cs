@@ -33,6 +33,7 @@ namespace ControllerProgrammer.Data.Model {
             {
                 string assemble = Assembly.GetExecutingAssembly().FullName;
                 options.MigrationsAssembly(assemble);
+                
             });
 
             //optionsBuilder.UseSqlServer("server=172.20.4.20;database=manufacturing_inventory_dev;user=aelmendorf;password=Drizzle123!;MultipleActiveResultSets=true");

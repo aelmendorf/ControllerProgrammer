@@ -25,7 +25,8 @@ namespace ControllerProgrammer.Main {
             //container.Register<ProgrammerContext>(setup:A)
             container.Register<ProgrammerContext>(setup: Setup.With(allowDisposableTransient: true));
             containerRegistry.Register<IControllerDataManagment, ControllerDataManagment>();
-            containerRegistry.Register<IControllerManager, ControllerManager>();
+            //containerRegistry.Register<IControllerManager, ControllerManager>();
+            containerRegistry.RegisterInstance<IControllerManager>(new ControllerManager());
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {

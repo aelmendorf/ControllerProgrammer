@@ -1,13 +1,25 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Platform>x86</Platform>
     <UseWPF>true</UseWPF>
     <AssemblyName>ControllerProgrammer</AssemblyName>
     <RootNamespace>ControllerProgrammer.Main</RootNamespace>
     <StartupObject>ControllerProgrammer.Main.App</StartupObject>
     <ApplicationIcon>Images\seti_logo.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="ControllerData.db" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ControllerData.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <!--<PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />-->
     <PackageReference Include="MahApps.Metro" Version="2.3.4" />

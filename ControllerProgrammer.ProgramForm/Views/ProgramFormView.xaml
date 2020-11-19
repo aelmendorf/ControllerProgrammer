@@ -7,14 +7,17 @@
              xmlns:common="clr-namespace:ControllerProgrammer.Common.Constants;assembly=ControllerProgrammer.Common"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <DockPanel>
-        <WrapPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="#FFE4D6D6">
-            <Button Content="Connect" Command="{Binding ConnectCommand}" Height="35" Width="100" Margin="0,0,10,0"/>
-            <TextBlock Text="{Binding ConnectionStatus,IsAsync=True}" VerticalAlignment="Center">Connection Status</TextBlock>
-        </WrapPanel>
+
         <mah:MetroTabControl DockPanel.Dock="Bottom">
             <mah:MetroTabItem Header="Recipe Form">
                 <mah:ContentControlEx prism:RegionManager.RegionName="{x:Static common:Regions.RecipeRegion}"/>

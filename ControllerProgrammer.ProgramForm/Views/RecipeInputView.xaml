@@ -18,7 +18,12 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <DockPanel Background="#FFBDB1B1">
+
         <StackPanel DockPanel.Dock="Top">
+            <WrapPanel Orientation="Horizontal"  Background="#FFE4D6D6">
+                <Button Content="{Binding ConnectButtonText}" Command="{Binding ConnectCommand}" Height="35" Width="100" Margin="0,0,10,0"/>
+                <TextBlock Text="{Binding ConnectionStatus}"  Foreground="Black" VerticalAlignment="Center" FontSize="18">Status</TextBlock>
+            </WrapPanel>
             <StackPanel>
                 <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 1 Parameters</Label>
                 <WrapPanel>
@@ -37,12 +42,14 @@
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Current,StringFormat={}{0:F1}}" Grid.Column="0"/>
-                                        <TextBlock Text="{Binding PowerDenisty,StringFormat={}{0:E1}}" Grid.Column="1"/>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
+                                                    <Binding Path="Current"/>
+                                                    <Binding Path="PowerDenisty"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                     </Grid>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
@@ -69,12 +76,14 @@
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Current,StringFormat=E}" Grid.Column="0"/>
-                                        <TextBlock Text="{Binding PowerDenisty,StringFormat=E}" Grid.Column="1"/>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
+                                                    <Binding Path="Current"/>
+                                                    <Binding Path="PowerDenisty"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
                                     </Grid>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
@@ -97,18 +106,13 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED3PowerDensites}">
+                        <ComboBox ItemsSource="{Binding LED3PowerDensites}"  >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0">
+                                        <TextBlock>
                                             <TextBlock.Text>
-                                                <MultiBinding StringFormat="{} Current:{0} + PD:{1}">
+                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
                                                     <Binding Path="Current"/>
                                                     <Binding Path="PowerDenisty"/>
                                                 </MultiBinding>
@@ -126,13 +130,14 @@
         <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <WrapPanel Margin="2,0,0,010">
                 <Button Content="Program Controller"
+                        Command="{Binding ProgramDeviceCommand}"
                         IsEnabled="{Binding ControllerConnected}"
                         Margin="0,0,10,0"
                         HorizontalAlignment="Center"
                         Height="50" Background="#FFC36363"/>
                 <TextBlock Text="{Binding ProgramStatus}" HorizontalAlignment="Center"
                            FontSize="16"
-                           VerticalAlignment="Center">Program Status</TextBlock>
+                           VerticalAlignment="Center"></TextBlock>
             </WrapPanel>
 
         </StackPanel>

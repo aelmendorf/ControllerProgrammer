@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+  <String Id="Company">SETi</String>
+
+  <String Id="ProductNameFolder">Controller Programmer</String>
+
+  <String Id="ProductName_x86">Controller Programmer (32bit)</String>
+  <String Id="ProductName_x64">Controller Programmer (64bit)</String>
+
+  <String Id="Description">Controller Programmer Application</String>
+  <String Id="Comments">Nothing</String>
+  <String Id="Keywords">dotnet,core,application,installer</String>
+
+  <String Id="DowngradeErrorMessage">A newer version of Controller Programmer is already installed.</String>
+
+  <String Id="Language">1033</String>
+
+</WixLocalization>

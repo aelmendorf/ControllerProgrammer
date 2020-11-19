@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <!-- Product Components -->
+    <ComponentGroup Id="ProductComponents">
+      <!-- Shortcut -->
+      <ComponentRef Id="MainAppShortcut" />
+      <ComponentRef Id="INSTALLFOLDER_Permission"/>
+    </ComponentGroup>
+    <!-- Installed files -->
+    <DirectoryRef Id="INSTALLFOLDER" FileSource="..\ControllerProgrammer.Main\bin\Release\netcoreapp3.1\publish\">
+      <Component Id="INSTALLFOLDER_Permission" Guid="{4C37B3E5-8ECC-4040-BC0C-018D362809BA}">
+        <CreateFolder>
+          <util:PermissionEx User="Users" GenericAll="yes"/>
+        </CreateFolder>
+      </Component>
+      <!-- Shortcut to main application -->
+      <Component Id="MainAppShortcut" Guid="{94DD7576-F558-419C-8818-4E2D07A58F79}">
+
+        <Shortcut Id="MainAppShortcut"
+                  Name="!(loc.ProductName_$(var.Platform))"
+                  Target="[INSTALLFOLDER]ControllerProgrammer.exe"
+                  Directory="InstallProgramMenuFolder"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Icon="seti_logo.ico"/>
+
+        <!-- Our unique key for this component/shortcut -->
+        <RegistryValue Id="RegShortcutKey" Root="HKCU" Key="SOFTWARE\!(loc.ProductNameFolder)" Name="Shortcut" Value="1" Type="integer" KeyPath="yes" />
+
+        <!--Remove start menu items -->
+        <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall" />
+
+      </Component>
+
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

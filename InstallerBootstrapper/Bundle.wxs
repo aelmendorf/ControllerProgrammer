@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+	<Bundle Name="InstallerBootstrapper" Version="1.0.0.0" Manufacturer="Sensor Electronic Technology" UpgradeCode="{23FDF9D0-E152-400C-949A-3183B38890DF}">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">  
+      <bal:WixStandardBootstrapperApplication LicenseUrl="" />
+      <!--Blank URL-->
+    </BootstrapperApplicationRef>
+		<Chain>
+      <ExePackage SourceFile="E:\Software Development\Controller Programmer\InstallerBootstrapper\windowsdesktop-runtime-3.1.10-win-x86.exe"/>
+			<MsiPackage SourceFile="E:\Software Development\Controller Programmer\ControllerProgrammer.Installer\bin\Release\en-us\ControllerProgrammer.Installer.msi" DisplayInternalUI="yes" />
+		</Chain>
+	</Bundle>
+</Wix>

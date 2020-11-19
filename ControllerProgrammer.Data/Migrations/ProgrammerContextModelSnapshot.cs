@@ -35,14 +35,14 @@ namespace ControllerProgrammer.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Current")
-                        .HasColumnType("REAL");
+                    b.Property<int>("Current")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("LedId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("PowerDenisty")
-                        .HasColumnType("REAL");
+                    b.Property<int>("PowerDenisty")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("PowerDensityId");
 
