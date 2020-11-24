@@ -48,6 +48,7 @@ namespace ControllerProgrammer.Common.Interfaces {
         bool IsConnected();
         void Disconnect();
         ControllerManagerResponse ProgramController(ControllerRecipe recipe);
+        ControllerManagerResponse RequestData();
 
     }
 }

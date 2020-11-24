@@ -22,7 +22,7 @@
         <StackPanel DockPanel.Dock="Top">
             <WrapPanel Orientation="Horizontal"  Background="#FFE4D6D6">
                 <Button Content="{Binding ConnectButtonText}" Command="{Binding ConnectCommand}" Height="35" Width="100" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding ConnectionStatus}"  Foreground="Black" VerticalAlignment="Center" FontSize="18">Status</TextBlock>
+                <TextBlock Text="{Binding ConnectionStatus}"  Foreground="Black" VerticalAlignment="Center" FontSize="18"/>
             </WrapPanel>
             <StackPanel>
                 <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 1 Parameters</Label>
@@ -38,7 +38,7 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED1PowerDensites}">
+                        <ComboBox ItemsSource="{Binding LED1PowerDensites}" SelectedItem="{Binding Led1SelectedDensity}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
@@ -72,7 +72,7 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED2PowerDensites}">
+                        <ComboBox ItemsSource="{Binding LED2PowerDensites}" SelectedItem="{Binding Led2SelectedDensity}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
@@ -106,7 +106,7 @@
                     </StackPanel>
                     <StackPanel Width="150" Margin="50,5,50,5">
                         <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED3PowerDensites}"  >
+                        <ComboBox ItemsSource="{Binding LED3PowerDensites}" SelectedItem="{Binding Led3SelectedDensity}" >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
