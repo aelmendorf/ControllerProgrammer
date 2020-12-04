@@ -9,5 +9,6 @@ namespace ControllerProgrammer.Common.Constants {
         public static string ProgramRegion => "ProgramRegion";
         public static string RecipeRegion => "RecipeRegion";
         public static string DataInputRegion => "DataInputRegion";
+        public static string ControllerLogRegion => "ControllerLogRegion";
     }
 }

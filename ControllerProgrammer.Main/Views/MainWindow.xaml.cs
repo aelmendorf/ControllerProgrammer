@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using MahApps.Metro;
-using MahApps.Metro.Controls;
+using DevExpress.Xpf.Core;
 
 namespace ControllerProgrammer.Main.Views {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow {
+    public partial class MainWindow : ThemedWindow {
         public MainWindow() {
             InitializeComponent();
         }

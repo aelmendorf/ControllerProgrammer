@@ -19,8 +19,25 @@ namespace ControllerProgrammer.ConsoleTesting {
             //    Console.WriteLine(port);
             //}
             //Console.WriteLine("Should be done maybe");
-            TestingUSB();
+            //TestingUSB();
+            TestingStringParse();
 
+        }
+
+        public static void TestingStringParse() {
+            string test = "52;2,3,4;5,6,7;8,9,10;";
+            var p = test.Split(';');
+            
+            Console.WriteLine("Values Below: ");
+            foreach(var value in p) {
+                var parameters = value.Split(',');
+                Console.WriteLine("Not Split: {0}",value);
+                Console.WriteLine("Split Values: ");
+                foreach(var par in parameters) {
+                    Console.WriteLine(par);
+                }
+
+            }
         }
 
         public static void TestingUSB() {

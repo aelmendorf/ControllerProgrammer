@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using ControllerProgrammer.Data.Model;
 using ControllerProgrammer.Common;
-using AsyncAwaitBestPractices.MVVM;
 using Prism.Events;
 using System.Collections.ObjectModel;
 using ControllerProgrammer.Common.Interfaces;
 using System.Windows.Threading;
 using ControllerProgrammer.ProgramForm.Internal;
-using Prism.Commands;
+using DevExpress.Mvvm;
 
 namespace ControllerProgrammer.ProgramForm.ViewModels {
     public class RecipeInputViewModel : ProgrammerViewModelBase {
         private IEventAggregator _eventAggregator;
-        private Dispatcher _dispatcher;
-        private double _led1DelayTime;
-        private double _led2DelayTime;
-        private double _led3DelayTime;
+        protected IDispatcherService _dispatcher { get => ServiceContainer.GetService<IDispatcherService>(); }
 
-        private double _led1RunTime;
-        private double _led2RunTime;
-        private double _led3RunTime;
+        private int _boardCycleTime;
+        private int _led1DelayTime;
+        private int _led2DelayTime;
+        private int _led3DelayTime;
+
+        private int _led1RunTime;
+        private int _led2RunTime;
+        private int _led3RunTime;
 
         private string _programStatus;
         private string _connectionStatus;
@@ -48,7 +49,6 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             this._eventAggregator = eventAggregator;
             this._controllerDataManagment = controllerDataManagment;
             this._controllerManager = controllerManager;
-            this._dispatcher = Dispatcher.CurrentDispatcher;
             //this._eventAggregator.GetEvent<USBConnectedEvent>().Subscribe(this.UpdateConnected);
             this._controllerManager.ValueReady += this._controllerManager_ValueReady;
             this.LoadedCommand = new AsyncCommand(this.LoadAsync);
@@ -59,10 +59,13 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         private void _controllerManager_ValueReady(object sender, ValueReadyEventArg e) {
             string response = e.Response;
             if (response.Contains('s')) {
-                this._dispatcher.Invoke(() => {
+                this._dispatcher.BeginInvoke(() => {
                     this.ProgramStatus = "Success";
                 });
-            } else {
+            }else if (response.Contains('l')) {
+                var logText = response.Split(';');
+                StringBuilder errors = new StringBuilder();
+            }else {
                 var ledParameters = response.Split(';');
                 StringBuilder errors = new StringBuilder();
                 for (int i = 0; i < ledParameters.Count(); i++) {
@@ -70,28 +73,28 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                     if (parameters.Count() == 3) {
                         switch (i) {
                             case 0: {
-                                    this._dispatcher.Invoke(() => {
-                                        this.Led1DelayTime = Convert.ToInt64(parameters[0]);
-                                        this.Led1RunTime = Convert.ToInt64(parameters[1]);
-                                        var current = Convert.ToInt64(parameters[2]);
+                                    this._dispatcher.BeginInvoke(() => {
+                                        this.Led1DelayTime = Convert.ToInt32(parameters[0]);
+                                        this.Led1RunTime = Convert.ToInt32(parameters[1]);
+                                        var current = Convert.ToInt32(parameters[2]);
                                         this.Led1SelectedDensity = this.LED1PowerDensites.FirstOrDefault(e => e.Current == current);
                                     });
                                     break;
                                 }
                             case 1: {
-                                    this._dispatcher.Invoke(() => {
-                                        this.Led2DelayTime = Convert.ToInt64(parameters[0]);
-                                        this.Led2RunTime = Convert.ToInt64(parameters[1]);
-                                        var current = Convert.ToInt64(parameters[2]);
+                                    this._dispatcher.BeginInvoke(() => {
+                                        this.Led2DelayTime = Convert.ToInt32(parameters[0]);
+                                        this.Led2RunTime = Convert.ToInt32(parameters[1]);
+                                        var current = Convert.ToInt32(parameters[2]);
                                         this.Led2SelectedDensity = this.LED2PowerDensites.FirstOrDefault(e => e.Current == current);
                                     });
                                     break;
                                 }
                             case 2: {
-                                    this._dispatcher.Invoke(() => {
-                                        this.Led3DelayTime = Convert.ToInt64(parameters[0]);
-                                        this.Led3RunTime = Convert.ToInt64(parameters[1]);
-                                        var current = Convert.ToInt64(parameters[2]);
+                                    this._dispatcher.BeginInvoke(() => {
+                                        this.Led3DelayTime = Convert.ToInt32(parameters[0]);
+                                        this.Led3RunTime = Convert.ToInt32(parameters[1]);
+                                        var current = Convert.ToInt32(parameters[2]);
                                         this.Led3SelectedDensity = this.LED3PowerDensites.FirstOrDefault(e => e.Current == current);
                                     });
                                     break;
@@ -102,7 +105,16 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                                 }
                         }
 
-                    } else {
+                    }else if (parameters.Count() == 1) {
+                        this._dispatcher.BeginInvoke(() => {
+                            try {
+                                this.BoardCycleTime = Convert.ToInt32(parameters[0]);
+                            } catch {
+
+                            }
+
+                        });
+                    }else {
                         errors.AppendLine("Error: Size > 3");
                     }
                 }
@@ -112,32 +124,32 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
 
         public override bool KeepAlive => false;
 
-        public double Led1DelayTime { 
+        public int Led1DelayTime { 
             get => this._led1DelayTime;
             set => SetProperty(ref this._led1DelayTime, value);
         }
 
-        public double Led2DelayTime {
+        public int Led2DelayTime {
             get => this._led2DelayTime;
             set => SetProperty(ref this._led2DelayTime, value);
         }
 
-        public double Led3DelayTime { 
+        public int Led3DelayTime { 
             get => this._led3DelayTime;
             set => SetProperty(ref this._led3DelayTime, value);
         }
 
-        public double Led1RunTime { 
+        public int Led1RunTime { 
             get => this._led1RunTime;
             set => SetProperty(ref this._led1RunTime, value);
         }
 
-        public double Led2RunTime { 
+        public int Led2RunTime { 
             get => this._led2RunTime;
             set => SetProperty(ref this._led2RunTime, value);
         }
 
-        public double Led3RunTime {
+        public int Led3RunTime {
             get => this._led3RunTime; 
             set => SetProperty(ref this._led3RunTime, value);
         }
@@ -192,6 +204,11 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set => SetProperty(ref this._led3SelectedDensity, value);
         }
 
+        public int BoardCycleTime { 
+            get => this._boardCycleTime;
+            set => SetProperty(ref this._boardCycleTime, value);
+        }
+
         public void UpdateConnected() {
             this.ControllerConnected = true;
         }
@@ -220,6 +237,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
 
         public void ProgramControllerHandler() {
             ControllerRecipe recipe = new ControllerRecipe();
+            recipe.CycleTime = this.BoardCycleTime;
             recipe.Led1Delay = this.Led1DelayTime;
             recipe.Led1RunTime = this.Led1RunTime;
             recipe.Led1Current = this.Led1SelectedDensity.Current;
@@ -232,7 +250,9 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             recipe.Led3RunTime = this.Led3RunTime;
             recipe.Led3Current = this.Led3SelectedDensity.Current;
 
-            this._controllerManager.ProgramController(recipe);
+            var response=this._controllerManager.ProgramController(recipe);
+             this.ProgramStatus = response.Message;
+
         }
 
         public async Task LoadAsync() {
@@ -241,13 +261,14 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                 this.ProgramStatus = "Not Connected";
                 this.ConnectionStatus = "Not Connected";
                 this.ConnectButtonText = "Connect";
-                this.Led1DelayTime = 10;
-                this.Led2DelayTime = 60;
-                this.Led3DelayTime = 120;
+                this.BoardCycleTime = 0;
+                this.Led1DelayTime = 0;
+                this.Led2DelayTime = 0;
+                this.Led3DelayTime = 0;
 
-                this.Led1RunTime = 120;
-                this.Led2RunTime = 180;
-                this.Led3RunTime = 30;
+                this.Led1RunTime = 0;
+                this.Led2RunTime = 0;
+                this.Led3RunTime = 0;
 
                 var led1Pd = this._controllerDataManagment.GetPowerDensities(1);
                 this.LED1PowerDensites = new ObservableCollection<PowerDensity>(led1Pd);

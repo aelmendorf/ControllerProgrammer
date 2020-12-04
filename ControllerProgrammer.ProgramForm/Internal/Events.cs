@@ -5,4 +5,5 @@ using Prism.Events;
 
 namespace ControllerProgrammer.ProgramForm.Internal {
     public class USBConnectedEvent : PubSubEvent { }
+    public class RefreshDataEvent : PubSubEvent { };
 }

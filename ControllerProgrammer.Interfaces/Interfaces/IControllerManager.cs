@@ -6,24 +6,27 @@ using System.Threading.Tasks;
 
 namespace ControllerProgrammer.Common.Interfaces {
     public class ControllerRecipe {
-        public double Led1Delay { get; set; }
-        public double Led1RunTime { get; set; }
-        public double Led1Current { get; set; }
+        public int CycleTime { get; set; }
+        public int Led1Delay { get; set; }
+        public int Led1RunTime { get; set; }
+        public int Led1Current { get; set; }
 
-        public double Led2Delay { get; set; }
-        public double Led2RunTime { get; set; }
-        public double Led2Current { get; set; }
+        public int Led2Delay { get; set; }
+        public int Led2RunTime { get; set; }
+        public int Led2Current { get; set; }
 
-        public double Led3Delay { get; set; }
-        public double Led3RunTime { get; set; }
-        public double Led3Current { get; set; }
+        public int Led3Delay { get; set; }
+        public int Led3RunTime { get; set; }
+        public int Led3Current { get; set; }
 
-        public Byte[] GetBuffer() {
+        public string GetBuffer() {
             StringBuilder buffer = new StringBuilder();
+            buffer.AppendFormat("{0};", this.CycleTime);
             buffer.AppendFormat("{0},{1},{2};",this.Led1Delay,this.Led1RunTime,this.Led1Current);
             buffer.AppendFormat("{0},{1},{2};", this.Led2Delay, this.Led2RunTime, this.Led2Current);
-            buffer.AppendFormat("{0},{1},{2};", this.Led3Delay, this.Led3RunTime, this.Led3Current);
-            return Encoding.ASCII.GetBytes(buffer.ToString());
+            buffer.AppendFormat("{0},{1},{2};\r", this.Led3Delay, this.Led3RunTime, this.Led3Current);
+            //return Encoding.ASCII.GetBytes(buffer.ToString());
+            return buffer.ToString();
         }
     }
 

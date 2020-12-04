@@ -5,41 +5,72 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControllerProgrammer.ProgramForm.Views"
              xmlns:common="clr-namespace:ControllerProgrammer.Common.Constants;assembly=ControllerProgrammer.Common"
-             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:dxdo="http://schemas.devexpress.com/winfx/2008/xaml/docking"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="750">
+             d:DesignHeight="450" d:DesignWidth="750">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ControllerProgrammer.Common;component/Resources/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <prism:InvokeCommandAction Command="{Binding LoadedCommand}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    <DockPanel Background="#FFBDB1B1">
-
-        <StackPanel DockPanel.Dock="Top">
-            <WrapPanel Orientation="Horizontal"  Background="#FFE4D6D6">
-                <Button Content="{Binding ConnectButtonText}" Command="{Binding ConnectCommand}" Height="35" Width="100" Margin="0,0,10,0"/>
-                <TextBlock Text="{Binding ConnectionStatus}"  Foreground="Black" VerticalAlignment="Center" FontSize="18"/>
-            </WrapPanel>
-            <StackPanel>
-                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 1 Parameters</Label>
-                <WrapPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
-                        <mah:NumericUpDown Value="{Binding Led1DelayTime}" Minimum="0"/>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
-                        <mah:NumericUpDown StringFormat="N" 
-                                           Value="{Binding Led1RunTime}"/>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED1PowerDensites}" SelectedItem="{Binding Led1SelectedDensity}">
-                            <ComboBox.ItemTemplate>
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:DispatcherService x:Name="DispatcherService" />
+        <dx:DXMessageBoxService x:Name="MessageService"/>
+        <dxmvvm:EventToCommand EventName="Loaded"
+                               Command="{Binding LoadedCommand}" />
+    </dxmvvm:Interaction.Behaviors>
+    <dx:LoadingDecorator>
+        <dxlc:DockLayoutControl>
+            <dxlc:LayoutGroup View="GroupBox" dxlc:DockLayoutControl.Dock="Top">
+                <dxlc:LayoutGroup.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="Board Paramters"  HorizontalAlignment="Center"/>
+                    </DataTemplate>
+                </dxlc:LayoutGroup.HeaderTemplate>
+                <dxlc:LayoutItem Label="Board Cycle Time(hrs)" Style="{StaticResource LayoutItemStyle}" >
+                    <dxe:SpinEdit Mask="d"
+                                  MaskType="Numeric"
+                                  MinValue="0"
+                                  Text="{Binding BoardCycleTime}"/>
+                </dxlc:LayoutItem>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Orientation="Vertical" dxlc:DockLayoutControl.Dock="Client">
+                <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
+                    <dxlc:LayoutGroup.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="LED1Parameters" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </dxlc:LayoutGroup.HeaderTemplate>
+                    <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                      MaskType="Numeric"
+                                      MinValue="0"
+                                      Text="{Binding Led1DelayTime}"/>
+                    </dxlc:LayoutItem >
+                    <dxlc:LayoutItem Label="Run Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                      MaskType="Numeric"
+                                      MinValue="0"
+                                      Text="{Binding Led1RunTime}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
+                                              IsTextEditable="False"
+                                              ItemsSource="{Binding LED1PowerDensites}"
+                                              SelectedItem="{Binding Led1SelectedDensity}">
+                            <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
                                         <TextBlock>
@@ -52,28 +83,35 @@
                                         </TextBlock>
                                     </Grid>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </WrapPanel>
-            </StackPanel>
+                            </dxe:ComboBoxEdit.ItemTemplate>
+                        </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
 
-            <StackPanel>
-                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 2 Parameters</Label>
-                <WrapPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
-                        <mah:NumericUpDown Value="{Binding Led2DelayTime}"></mah:NumericUpDown>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
-                        <mah:NumericUpDown StringFormat="N" 
-                                           Value="{Binding Led2RunTime}"/>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED2PowerDensites}" SelectedItem="{Binding Led2SelectedDensity}">
-                            <ComboBox.ItemTemplate>
+                <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
+                    <dxlc:LayoutGroup.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="LED2Parameters" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </dxlc:LayoutGroup.HeaderTemplate>
+                    <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                          MaskType="Numeric"
+                                          MinValue="0"
+                                          Text="{Binding Led2DelayTime}"/>
+                    </dxlc:LayoutItem >
+                    <dxlc:LayoutItem Label="Run Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                          MaskType="Numeric"
+                                          MinValue="0"
+                                          Text="{Binding Led2RunTime}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
+                                              IsTextEditable="False"
+                                              ItemsSource="{Binding LED2PowerDensites}"
+                                              SelectedItem="{Binding Led2SelectedDensity}">
+                            <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
                                         <TextBlock>
@@ -86,28 +124,34 @@
                                         </TextBlock>
                                     </Grid>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </WrapPanel>
-            </StackPanel>
-
-            <StackPanel>
-                <Label HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" FontSize="18">LED 3 Parameters</Label>
-                <WrapPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Delay Time</mah:MetroHeader>
-                        <mah:NumericUpDown Value="{Binding Led3DelayTime}"></mah:NumericUpDown>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Runtime</mah:MetroHeader>
-                        <mah:NumericUpDown StringFormat="N" 
-                                           Value="{Binding Led3RunTime}"/>
-                    </StackPanel>
-                    <StackPanel Width="150" Margin="50,5,50,5">
-                        <mah:MetroHeader FontSize="16" HorizontalContentAlignment="Center">Power Density</mah:MetroHeader>
-                        <ComboBox ItemsSource="{Binding LED3PowerDensites}" SelectedItem="{Binding Led3SelectedDensity}" >
-                            <ComboBox.ItemTemplate>
+                            </dxe:ComboBoxEdit.ItemTemplate>
+                        </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
+                    <dxlc:LayoutGroup.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="LED3Parameters" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </dxlc:LayoutGroup.HeaderTemplate>
+                    <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                          MaskType="Numeric"
+                                          MinValue="0"
+                                          Text="{Binding Led3DelayTime}"/>
+                    </dxlc:LayoutItem >
+                    <dxlc:LayoutItem Label="Run Time(min)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Mask="d"
+                                          MaskType="Numeric"
+                                          MinValue="0"
+                                          Text="{Binding Led3RunTime}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
+                                              IsTextEditable="False"
+                                              ItemsSource="{Binding LED3PowerDensites}"
+                                              SelectedItem="{Binding Led3SelectedDensity}">
+                            <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
                                     <Grid x:Name="gd" TextElement.Foreground="Black">
                                         <TextBlock>
@@ -120,27 +164,29 @@
                                         </TextBlock>
                                     </Grid>
                                 </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </StackPanel>
-                </WrapPanel>
-            </StackPanel>
+                            </dxe:ComboBoxEdit.ItemTemplate>
+                        </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Bottom"
+                             Header="Program Controller">
+                <dxlc:LayoutGroup Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="Press To Program Recipe" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
+                        <dx:SimpleButton Height="50"
+                                     Command="{Binding ProgramDeviceCommand}"
+                                     Content="Program Controller"
+                                      IsEnabled="{Binding ControllerConnected}"
+                                     Glyph="{dx:DXImage Image=Save_32x32.png}" />
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Connection Status" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding ProgramStatus}" IsReadOnly="False"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+        </dxlc:DockLayoutControl>
 
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <WrapPanel Margin="2,0,0,010">
-                <Button Content="Program Controller"
-                        Command="{Binding ProgramDeviceCommand}"
-                        IsEnabled="{Binding ControllerConnected}"
-                        Margin="0,0,10,0"
-                        HorizontalAlignment="Center"
-                        Height="50" Background="#FFC36363"/>
-                <TextBlock Text="{Binding ProgramStatus}" HorizontalAlignment="Center"
-                           FontSize="16"
-                           VerticalAlignment="Center"></TextBlock>
-            </WrapPanel>
+    </dx:LoadingDecorator>
 
-        </StackPanel>
-    </DockPanel>
 
 </UserControl>
