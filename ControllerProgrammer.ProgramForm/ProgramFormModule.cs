@@ -11,6 +11,7 @@ namespace ControllerProgrammer.ProgramForm {
             regionManager.RegisterViewWithRegion(Regions.ProgramRegion, typeof(ProgramFormView));
             regionManager.RegisterViewWithRegion(Regions.DataInputRegion, typeof(DataInputView));
             regionManager.RegisterViewWithRegion(Regions.RecipeRegion, typeof(RecipeInputView));
+            regionManager.RegisterViewWithRegion(Regions.ControllerLogRegion, typeof(ControllerLogView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry) {

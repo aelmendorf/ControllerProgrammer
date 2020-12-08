@@ -41,7 +41,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             this.CancelEditCommand = new AsyncCommand(this.CancelEditHandler);
         }
 
-        public override bool KeepAlive => false;
+        public override bool KeepAlive => true;
 
         public ObservableCollection<PowerDensity> PowerDensities { 
             get => this._powerDensities; 
@@ -79,8 +79,6 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                 } catch {
                     this.MessageService.ShowMessage("Error: Save Failed,Exception Thrown");
                 }
-
-
             } else {
                 this.MessageService.ShowMessage("Error: Save Failed");
             }

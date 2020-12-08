@@ -14,26 +14,25 @@ using DevExpress.Mvvm;
 
 namespace ControllerProgrammer.ProgramForm.ViewModels {
     public class RecipeInputViewModel : ProgrammerViewModelBase {
+        
+        protected IDispatcherService _dispatcher { get => ServiceContainer.GetService<IDispatcherService>("RecipeDispatcherService"); }
+        protected IMessageBoxService _messageService { get => ServiceContainer.GetService<IMessageBoxService>("RecipeMessageService"); }
+
+        private IControllerDataManagment _controllerDataManager;
+        private IControllerManager _controller;
         private IEventAggregator _eventAggregator;
-        protected IDispatcherService _dispatcher { get => ServiceContainer.GetService<IDispatcherService>(); }
 
         private int _boardCycleTime;
         private int _led1DelayTime;
         private int _led2DelayTime;
         private int _led3DelayTime;
-
         private int _led1RunTime;
         private int _led2RunTime;
         private int _led3RunTime;
-
         private string _programStatus;
         private string _connectionStatus;
         private string _connectButtonText;
-
         private bool _controllerConnected;
-
-        private IControllerDataManagment _controllerDataManagment;
-        private IControllerManager _controllerManager;
 
         private ObservableCollection<PowerDensity> _lED1PowerDensites;
         private ObservableCollection<PowerDensity> _lED2PowerDensites;
@@ -41,86 +40,29 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         private PowerDensity _led1SelectedDensity;
         private PowerDensity _led2SelectedDensity;
         private PowerDensity _led3SelectedDensity;
+        private bool _isSplashScreenShown;
         public DelegateCommand ProgramDeviceCommand { get; private set; }
+        public DelegateCommand ReadDeviceMemoryCommand { get; private set; }
         public AsyncCommand LoadedCommand { get; private set; }
         public DelegateCommand ConnectCommand { get; private set; }
 
         public RecipeInputViewModel(IControllerDataManagment controllerDataManagment,IControllerManager controllerManager,IEventAggregator eventAggregator) {
             this._eventAggregator = eventAggregator;
-            this._controllerDataManagment = controllerDataManagment;
-            this._controllerManager = controllerManager;
-            //this._eventAggregator.GetEvent<USBConnectedEvent>().Subscribe(this.UpdateConnected);
-            this._controllerManager.ValueReady += this._controllerManager_ValueReady;
+            this._controllerDataManager = controllerDataManagment;
+            this._controller = controllerManager;
+            this._eventAggregator.GetEvent<USBConnectedEvent>().Subscribe(this.UsbConnectedHandler);
+            this._eventAggregator.GetEvent<USBDisconnectedEvent>().Subscribe(this.UsbDisconnectedHandler);
+            //this._eventAggregator.GetEvent<USBdi>().Subscribe(this.UsbConnectedHandler);
+            // this._controller.ValueReady += this._controllerManager_ValueReady;
+            this._eventAggregator.GetEvent<RecieveRecipeEvent>().Subscribe(this.RecieveRecipeHandler);
+            this._eventAggregator.GetEvent<RecieveProgrammedEvent>().Subscribe(this.RecieveProgrammedHandler);
             this.LoadedCommand = new AsyncCommand(this.LoadAsync);
             this.ConnectCommand = new DelegateCommand(this.ConnectHandler);
             this.ProgramDeviceCommand = new DelegateCommand(this.ProgramControllerHandler);
+            this.ReadDeviceMemoryCommand = new DelegateCommand(this.ReadDeviceMemoryHandler);
         }
 
-        private void _controllerManager_ValueReady(object sender, ValueReadyEventArg e) {
-            string response = e.Response;
-            if (response.Contains('s')) {
-                this._dispatcher.BeginInvoke(() => {
-                    this.ProgramStatus = "Success";
-                });
-            }else if (response.Contains('l')) {
-                var logText = response.Split(';');
-                StringBuilder errors = new StringBuilder();
-            }else {
-                var ledParameters = response.Split(';');
-                StringBuilder errors = new StringBuilder();
-                for (int i = 0; i < ledParameters.Count(); i++) {
-                    var parameters = ledParameters[i].Split(',');
-                    if (parameters.Count() == 3) {
-                        switch (i) {
-                            case 0: {
-                                    this._dispatcher.BeginInvoke(() => {
-                                        this.Led1DelayTime = Convert.ToInt32(parameters[0]);
-                                        this.Led1RunTime = Convert.ToInt32(parameters[1]);
-                                        var current = Convert.ToInt32(parameters[2]);
-                                        this.Led1SelectedDensity = this.LED1PowerDensites.FirstOrDefault(e => e.Current == current);
-                                    });
-                                    break;
-                                }
-                            case 1: {
-                                    this._dispatcher.BeginInvoke(() => {
-                                        this.Led2DelayTime = Convert.ToInt32(parameters[0]);
-                                        this.Led2RunTime = Convert.ToInt32(parameters[1]);
-                                        var current = Convert.ToInt32(parameters[2]);
-                                        this.Led2SelectedDensity = this.LED2PowerDensites.FirstOrDefault(e => e.Current == current);
-                                    });
-                                    break;
-                                }
-                            case 2: {
-                                    this._dispatcher.BeginInvoke(() => {
-                                        this.Led3DelayTime = Convert.ToInt32(parameters[0]);
-                                        this.Led3RunTime = Convert.ToInt32(parameters[1]);
-                                        var current = Convert.ToInt32(parameters[2]);
-                                        this.Led3SelectedDensity = this.LED3PowerDensites.FirstOrDefault(e => e.Current == current);
-                                    });
-                                    break;
-                                }
-                            default: {
-                                    errors.AppendLine("Error Index Out Of Range");
-                                    break;
-                                }
-                        }
-
-                    }else if (parameters.Count() == 1) {
-                        this._dispatcher.BeginInvoke(() => {
-                            try {
-                                this.BoardCycleTime = Convert.ToInt32(parameters[0]);
-                            } catch {
-
-                            }
-
-                        });
-                    }else {
-                        errors.AppendLine("Error: Size > 3");
-                    }
-                }
-            }
-
-        }
+        
 
         public override bool KeepAlive => false;
 
@@ -208,19 +150,24 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             get => this._boardCycleTime;
             set => SetProperty(ref this._boardCycleTime, value);
         }
+        
+        public bool IsSplashScreenShown { 
+            get => this._isSplashScreenShown;
+            set => SetProperty(ref this._isSplashScreenShown, value);
+        }
 
         public void UpdateConnected() {
             this.ControllerConnected = true;
         }
 
         public void ConnectHandler() {
-            if (!this._controllerManager.IsConnected()) {
-                var response = this._controllerManager.Connect();
+            if (!this._controller.IsConnected()) {
+                var response = this._controller.Connect();
                 if (response.Success) {
                     this.ControllerConnected = true;
                     this.ConnectButtonText = "Disconnect";
                     this.ConnectionStatus = "Connected to Controller";
-                    this._controllerManager.RequestData();
+                    this._controller.RequestRecipe();
                 } else {
                     this.ControllerConnected = false;
                     this.ConnectButtonText = "Connect";
@@ -228,7 +175,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                     this.ConnectionStatus = response.Message;
                 }
             } else {
-                this._controllerManager.Disconnect();
+                this._controller.Disconnect();
                 this.ControllerConnected = false;
                 this.ConnectButtonText = "Connect";
                 this.ProgramStatus = "Not Connected";
@@ -250,13 +197,91 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             recipe.Led3RunTime = this.Led3RunTime;
             recipe.Led3Current = this.Led3SelectedDensity.Current;
 
-            var response=this._controllerManager.ProgramController(recipe);
-             this.ProgramStatus = response.Message;
+            var response=this._controller.ProgramController(recipe);
 
+        }
+
+        private void UsbConnectedHandler() {
+            this.ControllerConnected = true;
+            this.ProgramStatus = "Connected";
+        }
+
+        private void UsbDisconnectedHandler() {
+            this.ControllerConnected = false;
+            this.ProgramStatus = "Disconnected";
+        }
+
+        private void ReadDeviceMemoryHandler() {
+            var response=this._controller.RequestRecipe();
+            if (response.Success) {
+                this.ProgramStatus = "Success";
+            } else {
+                this.ProgramStatus = response.Message;
+            }
+        }
+
+        private void RecieveProgrammedHandler(string response) {
+            this.ProgramStatus = "Device Programmed Succesfully: "
+                +Environment.NewLine
+                +"Data:"
+                +response;
+        }
+
+        private void RecieveRecipeHandler(string response) {
+            var ledParameters = response.Split(';');
+            StringBuilder errors = new StringBuilder();
+            for (int i = 0; i < ledParameters.Count(); i++) {
+                var parameters = ledParameters[i].Split(',');
+                if (parameters.Count() == 3) {
+                    switch (i) {
+                        case 1: {
+                                this._dispatcher.BeginInvoke(() => {
+                                    this.Led1DelayTime = Convert.ToInt32(parameters[0]);
+                                    this.Led1RunTime = Convert.ToInt32(parameters[1]);
+                                    var current = Convert.ToInt32(parameters[2]);
+                                    this.Led1SelectedDensity = this.LED1PowerDensites.FirstOrDefault(e => e.Current == current);
+                                });
+                                break;
+                            }
+                        case 2: {
+                                this._dispatcher.BeginInvoke(() => {
+                                    this.Led2DelayTime = Convert.ToInt32(parameters[0]);
+                                    this.Led2RunTime = Convert.ToInt32(parameters[1]);
+                                    var current = Convert.ToInt32(parameters[2]);
+                                    this.Led2SelectedDensity = this.LED2PowerDensites.FirstOrDefault(e => e.Current == current);
+                                });
+                                break;
+                            }
+                        case 3: {
+                                this._dispatcher.BeginInvoke(() => {
+                                    this.Led3DelayTime = Convert.ToInt32(parameters[0]);
+                                    this.Led3RunTime = Convert.ToInt32(parameters[1]);
+                                    var current = Convert.ToInt32(parameters[2]);
+                                    this.Led3SelectedDensity = this.LED3PowerDensites.FirstOrDefault(e => e.Current == current);
+                                });
+                                break;
+                            }
+                        default: {
+                                errors.AppendLine("Error Index Out Of Range");
+                                break;
+                            }
+                    }
+                } else if (parameters.Count() == 1) {
+                    this._dispatcher.BeginInvoke(() => {
+                        try {
+                            this.BoardCycleTime = Convert.ToInt32(parameters[0]);
+                        } catch { }
+
+                    });
+                } else {
+                    errors.AppendLine("Error: Size > 3");
+                }
+            }
         }
 
         public async Task LoadAsync() {
             await Task.Run(() => {
+                this._dispatcher.BeginInvoke(() => { this.IsSplashScreenShown = true; });
                 this.ControllerConnected = false;
                 this.ProgramStatus = "Not Connected";
                 this.ConnectionStatus = "Not Connected";
@@ -270,20 +295,21 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                 this.Led2RunTime = 0;
                 this.Led3RunTime = 0;
 
-                var led1Pd = this._controllerDataManagment.GetPowerDensities(1);
+                var led1Pd = this._controllerDataManager.GetPowerDensities(1);
                 this.LED1PowerDensites = new ObservableCollection<PowerDensity>(led1Pd);
                 this.LED1PowerDensites.OrderBy(e => e.Current);
                 this.Led1SelectedDensity = this.LED1PowerDensites.First();
 
-                var led2Pd = this._controllerDataManagment.GetPowerDensities(2);
+                var led2Pd = this._controllerDataManager.GetPowerDensities(2);
                 this.LED2PowerDensites = new ObservableCollection<PowerDensity>(led2Pd);
                 this.LED2PowerDensites.OrderBy(e => e.Current);
                 this.Led2SelectedDensity = this.LED2PowerDensites.First();
 
-                var led3Pd = this._controllerDataManagment.GetPowerDensities(3);
+                var led3Pd = this._controllerDataManager.GetPowerDensities(3);
                 this.LED3PowerDensites = new ObservableCollection<PowerDensity>(led3Pd);
                 this.LED3PowerDensites.OrderBy(e => e.Current);
                 this.Led3SelectedDensity = this.LED3PowerDensites.First();
+                this._dispatcher.BeginInvoke(() => { this.IsSplashScreenShown = false; });
 
             });
         }

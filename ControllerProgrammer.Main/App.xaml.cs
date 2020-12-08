@@ -8,12 +8,18 @@ using Prism.DryIoc;
 using DryIoc;
 using ControllerProgrammer.Common.Interfaces;
 using ControllerProgrammer.Common.Services;
+using DevExpress.Xpf.Core;
 
 namespace ControllerProgrammer.Main {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App {
+        protected override void OnStartup(StartupEventArgs e) {
+            //ApplicationThemeHelper.ApplicationThemeName = Theme.VS2017DarkName;
+            base.OnStartup(e);
+        }
+
         protected override Window CreateShell() {
             return Container.Resolve<MainWindow>();
         }
@@ -24,9 +30,11 @@ namespace ControllerProgrammer.Main {
 
             //container.Register<ProgrammerContext>(setup:A)
             container.Register<ProgrammerContext>(setup: Setup.With(allowDisposableTransient: true));
+            containerRegistry.RegisterSingleton<IControllerManager, ControllerManager>();
             containerRegistry.Register<IControllerDataManagment, ControllerDataManagment>();
             //containerRegistry.Register<IControllerManager, ControllerManager>();
-            containerRegistry.RegisterInstance<IControllerManager>(new ControllerManager());
+            //containerRegistry.RegisterInstance<IControllerManager>(new ControllerManager());
+           
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog) {

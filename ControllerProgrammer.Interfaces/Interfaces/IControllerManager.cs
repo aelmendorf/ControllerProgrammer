@@ -21,10 +21,15 @@ namespace ControllerProgrammer.Common.Interfaces {
 
         public string GetBuffer() {
             StringBuilder buffer = new StringBuilder();
-            buffer.AppendFormat("{0};", this.CycleTime);
-            buffer.AppendFormat("{0},{1},{2};",this.Led1Delay,this.Led1RunTime,this.Led1Current);
-            buffer.AppendFormat("{0},{1},{2};", this.Led2Delay, this.Led2RunTime, this.Led2Current);
-            buffer.AppendFormat("{0},{1},{2};\r", this.Led3Delay, this.Led3RunTime, this.Led3Current);
+            buffer.AppendFormat("p;{0};{1},{2},{3};{4},{5},{6};{7},{8},{9};\r",
+                this.CycleTime,
+                this.Led1Delay,this.Led1RunTime,this.Led1Current,
+                this.Led2Delay, this.Led2RunTime, this.Led2Current,
+                this.Led3Delay, this.Led3RunTime, this.Led3Current);
+            //buffer.AppendFormat("{0};", this.CycleTime);
+            //buffer.AppendFormat("{0},{1},{2};",this.Led1Delay,this.Led1RunTime,this.Led1Current);
+            //buffer.AppendFormat("{0},{1},{2};", this.Led2Delay, this.Led2RunTime, this.Led2Current);
+            //buffer.AppendFormat("{0},{1},{2};\r", this.Led3Delay, this.Led3RunTime, this.Led3Current);
             //return Encoding.ASCII.GetBytes(buffer.ToString());
             return buffer.ToString();
         }
@@ -51,7 +56,8 @@ namespace ControllerProgrammer.Common.Interfaces {
         bool IsConnected();
         void Disconnect();
         ControllerManagerResponse ProgramController(ControllerRecipe recipe);
-        ControllerManagerResponse RequestData();
+        ControllerManagerResponse RequestRecipe();
+        ControllerManagerResponse RequestLog();
 
     }
 }

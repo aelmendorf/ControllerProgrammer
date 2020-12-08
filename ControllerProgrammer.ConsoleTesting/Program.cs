@@ -20,7 +20,21 @@ namespace ControllerProgrammer.ConsoleTesting {
             //}
             //Console.WriteLine("Should be done maybe");
             //TestingUSB();
-            TestingStringParse();
+            //TestingStringParse();
+            TestingLogParse();
+
+        }
+
+        public static void TestingLogParse() {
+            string test = "l;0,0,0,0;";
+            var mainSplit = test.Split(';');
+            foreach(var value in mainSplit) {
+                var split = value.Split(',');
+                Console.WriteLine("Not Split: {0}", value);
+                foreach(var v in split) {
+                    Console.WriteLine("Value: {0}", v);
+                }
+            }
 
         }
 

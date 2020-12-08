@@ -39,23 +39,24 @@
                              Content="{Binding ConnectButtonText}"
                              Glyph="{dx:DXImage Image=Add_16x16.png}" />
                 <dxlc:LayoutItem Label="Connection Status" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
-                    <dxe:TextEdit Text="{Binding ConnectionStatus}" IsReadOnly="False"/>
+                    <dxe:TextEdit Text="{Binding ConnectionStatus}" IsReadOnly="True"/>
                 </dxlc:LayoutItem>
             </dxlc:LayoutGroup>
 
-            <dx:DXTabControl dxlc:DockLayoutControl.Dock="Client">
+            <dx:DXTabControl dxlc:DockLayoutControl.Dock="Client" TabContentCacheMode="CacheTabsOnSelecting">
                 <dx:DXTabItem prism:RegionManager.RegionName="{x:Static common:Regions.RecipeRegion}"
                               Glyph="{dx:DXImage Image=Save_16x16.png}"
                               Header="Recipe Programmer"
                               TabIndex="0"/>
+                <dx:DXTabItem prism:RegionManager.RegionName="{x:Static common:Regions.ControllerLogRegion}"
+                              Glyph="{dx:DXImage Image=HistoryItem_16x16.png}"
+                              Header="Log Viewer"
+                              TabIndex="1"/>
                 <dx:DXTabItem prism:RegionManager.RegionName="{x:Static common:Regions.DataInputRegion}"
-                              Glyph="{dx:DXImage Image=HistoryItem_16x16.png}"
+                              Glyph="{dx:DXImage Image=SelectData_16x16.png}"
                               Header="Log Viewer"
-                              TabIndex="0"/>
-                <!--<dx:DXTabItem prism:RegionManager.RegionName="{x:Static common:Regions.RecipeRegion}"
-                              Glyph="{dx:DXImage Image=HistoryItem_16x16.png}"
-                              Header="Log Viewer"
-                              TabIndex="0"/>-->
+                              TabIndex="2"/>
+
             </dx:DXTabControl>
         </dxlc:DockLayoutControl>
     </dx:LoadingDecorator>

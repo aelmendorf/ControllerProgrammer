@@ -13,6 +13,7 @@
              xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
              xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:prism="http://prismlibrary.com/"
+             dx:ThemeManager.ThemeName="Office2019DarkGray"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
@@ -25,12 +26,44 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <dxmvvm:Interaction.Behaviors>
-        <dxmvvm:DispatcherService x:Name="ControllerLogDispatcherService" />
-        <dx:DXMessageBoxService x:Name="ControllerLogMessageService"/>
+        <dxmvvm:DispatcherService x:Name="LogDispatcherService" />
+        <dx:DXMessageBoxService x:Name="LogMessageService"/>
         <dxmvvm:EventToCommand EventName="Loaded"
                                Command="{Binding LoadedCommand}" />
     </dxmvvm:Interaction.Behaviors>
-    <Grid>
-            
-    </Grid>
+    <dx:LoadingDecorator>
+        <dxlc:DockLayoutControl>
+            <dxlc:GroupBox dxlc:DockLayoutControl.Dock="Client">
+                <dxlc:LayoutGroup Orientation="Vertical">
+                    <dxlc:LayoutItem Label="Board Cycle Count" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding BoardCycleCount}" Width="150" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="275nm Led Cycle Count" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led1CycleCount}" Width="150" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="285nm Led Cycle Count" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led2CycleCount}" Width="150" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="310nm Led Cycle Count" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led3CycleCount}" Width="150" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:GroupBox>
+
+            <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Bottom" Header="Program Controller">
+                <dxlc:LayoutGroup Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="Press To Program Recipe" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
+                        <dx:SimpleButton Height="50"
+                                         Command="{Binding RequestLogCommand}"
+                                         Content="Request Log"
+                                         IsEnabled="{Binding ControllerConnected}"
+                                         Glyph="{dx:DXImage Image=Save_32x32.png}"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Controller Response" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding ControllerResponse}" IsReadOnly="True"/>
+                    </dxlc:LayoutItem>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+        </dxlc:DockLayoutControl>
+    </dx:LoadingDecorator>
 </UserControl>

@@ -15,6 +15,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True"
+             dx:ThemeManager.ThemeName="Office2019DarkGray"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>

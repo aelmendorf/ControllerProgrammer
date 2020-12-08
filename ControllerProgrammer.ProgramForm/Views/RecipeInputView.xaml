@@ -26,10 +26,9 @@
     </UserControl.Resources>
 
     <dxmvvm:Interaction.Behaviors>
-        <dxmvvm:DispatcherService x:Name="DispatcherService" />
-        <dx:DXMessageBoxService x:Name="MessageService"/>
-        <dxmvvm:EventToCommand EventName="Loaded"
-                               Command="{Binding LoadedCommand}" />
+        <dxmvvm:DispatcherService x:Name="RecipeDispatcherService" />
+        <dx:DXMessageBoxService x:Name="RecipeMessageService"/>
+        <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding LoadedCommand}" />
     </dxmvvm:Interaction.Behaviors>
     <dx:LoadingDecorator>
         <dxlc:DockLayoutControl>
@@ -172,15 +171,22 @@
             <dxlc:LayoutGroup dxlc:DockLayoutControl.Dock="Bottom"
                              Header="Program Controller">
                 <dxlc:LayoutGroup Orientation="Horizontal">
+                    <dxlc:LayoutItem Label="Press To Read Board Recipe" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
+                        <dx:SimpleButton Height="50"
+                                         Command="{Binding ReadDeviceMemoryCommand}"
+                                         Content="Read From Memory"
+                                         IsEnabled="{Binding ControllerConnected}"
+                                         Glyph="{dx:DXImage Image=Save_32x32.png}" />
+                    </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Press To Program Recipe" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
                         <dx:SimpleButton Height="50"
-                                     Command="{Binding ProgramDeviceCommand}"
-                                     Content="Program Controller"
-                                      IsEnabled="{Binding ControllerConnected}"
-                                     Glyph="{dx:DXImage Image=Save_32x32.png}" />
+                                         Command="{Binding ProgramDeviceCommand}"
+                                         Content="Program Controller"
+                                         IsEnabled="{Binding ControllerConnected}"
+                                         Glyph="{dx:DXImage Image=Save_32x32.png}" />
                     </dxlc:LayoutItem>
                     <dxlc:LayoutItem Label="Connection Status" VerticalAlignment="Stretch" Style="{StaticResource LayoutItemStyle}">
-                        <dxe:TextEdit Text="{Binding ProgramStatus}" IsReadOnly="False"/>
+                        <dxe:TextEdit Text="{Binding ProgramStatus}" IsReadOnly="False" AcceptsReturn="True"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>

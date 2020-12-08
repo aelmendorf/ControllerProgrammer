@@ -84,8 +84,10 @@ namespace ControllerProgrammer.Common.Services {
                 //    recipe.Led2Delay, recipe.Led2RunTime, recipe.Led2Current,
                 //    recipe.Led3Delay, recipe.Led3RunTime, recipe.Led3Current);
                 //var bytes=Encoding.ASCII.GetBytes(buffer.ToString());
-                var buffer = recipe.GetBuffer();
+                var buffer=recipe.GetBuffer();
+                
                 try {
+                    //this._controller
                     this._controller.Write(buffer);
                     return new ControllerManagerResponse(true, "Success: Command Sent");
                 } catch {
@@ -96,14 +98,23 @@ namespace ControllerProgrammer.Common.Services {
             return new ControllerManagerResponse(false, "Error: Controller not connected");
         }
 
-        public ControllerManagerResponse RequestData() {
+        public ControllerManagerResponse RequestRecipe() {
             try {
-                this._controller.Write("r");
-                return new ControllerManagerResponse(true,"Success: Message sent");
+                this._controller.Write("r\r");
+                return new ControllerManagerResponse(true,"Success: Recipe sent");
             } catch {
                 return new ControllerManagerResponse(false, "Error: Could not send command, please try reconnecting board");
             }
 
+        }
+
+        public ControllerManagerResponse RequestLog() {
+            try {
+                this._controller.Write("l\r");
+                return new ControllerManagerResponse(true, "Success: Log Requested");
+            } catch {
+                return new ControllerManagerResponse(false, "Error: Could not send command, please try reconnecting board");
+            }
         }
 
         private List<string> FindUSBCom() {
@@ -131,5 +142,7 @@ namespace ControllerProgrammer.Common.Services {
         public bool IsConnected() {
             return this._controller.IsOpen;
         }
+
+
     }
 }
