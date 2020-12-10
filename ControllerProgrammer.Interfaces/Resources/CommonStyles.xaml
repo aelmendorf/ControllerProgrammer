@@ -38,4 +38,14 @@
         <Setter Property="ShowFilterPanelMode" Value="ShowAlways" />
         <Setter Property="AllowGrouping" Value="True"/>
     </Style>
+
+    <Style x:Key="BarStyle" TargetType="dxb:Bar">
+        <Setter Property="AllowCollapse" Value="False" />
+        <Setter Property="AllowCustomizationMenu" Value="False" />
+        <Setter Property="AllowDrop" Value="False" />
+        <Setter Property="AllowHide" Value="False" />
+        <Setter Property="AllowQuickCustomization" Value="False" />
+        <Setter Property="ShowDragWidget" Value="False" />
+        <Setter Property="ShowSizeGrip" Value="False" />
+    </Style>
 </ResourceDictionary>

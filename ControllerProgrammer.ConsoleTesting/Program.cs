@@ -6,6 +6,8 @@ using System.IO.Ports;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Microsoft.Win32;
+using System.IO;
+
 namespace ControllerProgrammer.ConsoleTesting {
     class Program {
         static void Main(string[] args) {
@@ -21,8 +23,80 @@ namespace ControllerProgrammer.ConsoleTesting {
             //Console.WriteLine("Should be done maybe");
             //TestingUSB();
             //TestingStringParse();
-            TestingLogParse();
+            //TestingLogParse();
+            ImportLookUp();
 
+        }
+
+        public static void ImportLookUp() {
+            using var context = new ProgrammerContext();
+            context.Database.EnsureCreated();
+            Led led1 = new Led();
+            led1.LedId = 1;
+            led1.Wavelength = Wavelength.W285;
+
+            Led led2 = new Led();
+            led2.LedId = 2;
+            led2.Wavelength = Wavelength.W275;
+
+            Led led3 = new Led();
+            led3.LedId = 3;
+            led3.Wavelength = Wavelength.W310;
+
+            context.Add(led1);
+            context.Add(led2);
+            context.Add(led3);
+            context.SaveChanges();
+            Console.WriteLine("Led Created");
+            Console.WriteLine("");
+
+            var lines = File.ReadAllLines(@"E:\Software Development\Controller Programmer\LookUpTable.txt");
+
+            List<PowerDensityRow> data = new List<PowerDensityRow>();
+            foreach(var line in lines) {
+                var rows = line.Split('\t');
+                if (rows.Count() == 4) {
+                    PowerDensity p285 = new PowerDensity();
+                    PowerDensity p275 = new PowerDensity();
+                    PowerDensity p310 = new PowerDensity();
+                    p285.Led = led1;
+                    p275.Led = led2;
+                    p310.Led = led3;
+                    int current = (int)(1000 * Convert.ToDouble(rows[0]));
+                    p285.Current = current;
+                    p275.Current = current;
+                    p310.Current = current;
+                    p285.PowerDenisty = ((int)(1000 * Convert.ToDouble(rows[1])));
+                    p275.PowerDenisty = ((int)(1000 * Convert.ToDouble(rows[2])));
+                    p310.PowerDenisty = ((int)(1000 * Convert.ToDouble(rows[3])));
+                    context.Add(p285);
+                    context.Add(p275);
+                    context.Add(p310);
+                    try {
+                        var count=context.SaveChanges();
+                        if (count > 0) {
+                            Console.WriteLine("Success");
+                        } else {
+                            Console.WriteLine("Failed to add(no except) {0}",line);
+                        }
+                    } catch {
+                        Console.WriteLine("Failed to add {0}",line);
+                    }
+                    
+                    data.Add(new PowerDensityRow() {
+                        Current = Convert.ToDouble(rows[0]),
+                        W285 = Convert.ToDouble(rows[1]),
+                        W275 = Convert.ToDouble(rows[2]),
+                        W310 = Convert.ToDouble(rows[3])
+                    });
+                } else {
+                    Console.WriteLine("Error: Too Many Rows.  Rows: {0}", rows.Count());
+                }
+            }
+            Console.WriteLine("Current,W285,W275,W310");
+            foreach(var value in data) {
+                Console.WriteLine("{0},{1},{2},{3}",value.Current,value.W285,value.W275,value.W310);
+            }
         }
 
         public static void TestingLogParse() {
@@ -134,7 +208,7 @@ namespace ControllerProgrammer.ConsoleTesting {
 
             Led led2 = new Led();
             led2.LedId = 2;
-            led2.Wavelength = Wavelength.W300;
+            led2.Wavelength = Wavelength.W285;
 
             Led led3 = new Led();
             led3.LedId = 3;
@@ -188,5 +262,12 @@ namespace ControllerProgrammer.ConsoleTesting {
                 Console.WriteLine("LEDId: {0} Current: {1} PowerDensity: {2}", pd.LedId,pd.Current, pd.PowerDenisty);
             }
         }
+    }
+
+    public class PowerDensityRow {
+        public double Current { get; set; }
+        public double W285 { get; set; }
+        public double W275 { get; set; }
+        public double W310 { get; set; }
     }
 }

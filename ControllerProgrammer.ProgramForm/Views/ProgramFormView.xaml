@@ -54,7 +54,7 @@
                               TabIndex="1"/>
                 <dx:DXTabItem prism:RegionManager.RegionName="{x:Static common:Regions.DataInputRegion}"
                               Glyph="{dx:DXImage Image=SelectData_16x16.png}"
-                              Header="Log Viewer"
+                              Header="Look Up Table"
                               TabIndex="2"/>
 
             </dx:DXTabControl>

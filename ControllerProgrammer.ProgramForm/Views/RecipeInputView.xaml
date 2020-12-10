@@ -49,7 +49,7 @@
                 <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutGroup.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="LED1Parameters" HorizontalAlignment="Center"/>
+                            <TextBlock Text="LED1(285nm) Parameters" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </dxlc:LayoutGroup.HeaderTemplate>
                     <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
@@ -64,33 +64,31 @@
                                       MinValue="0"
                                       Text="{Binding Led1RunTime}"/>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                    <dxlc:LayoutItem Label="Power Density(uW/cm^2)" Style="{StaticResource LayoutItemStyle}">
                         <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
                                               IsTextEditable="False"
                                               ItemsSource="{Binding LED1PowerDensites}"
                                               SelectedItem="{Binding Led1SelectedDensity}">
                             <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
-                                                    <Binding Path="Current"/>
-                                                    <Binding Path="PowerDenisty"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <Binding Path="PowerDensity"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </DataTemplate>
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led1Dosage}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
 
                 <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutGroup.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="LED2Parameters" HorizontalAlignment="Center"/>
+                            <TextBlock Text="LED2(275nm) Parameters" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </dxlc:LayoutGroup.HeaderTemplate>
                     <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
@@ -105,32 +103,30 @@
                                           MinValue="0"
                                           Text="{Binding Led2RunTime}"/>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                    <dxlc:LayoutItem Label="Power Density(uW/cm^2)" Style="{StaticResource LayoutItemStyle}">
                         <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
                                               IsTextEditable="False"
                                               ItemsSource="{Binding LED2PowerDensites}"
                                               SelectedItem="{Binding Led2SelectedDensity}">
                             <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
-                                                    <Binding Path="Current"/>
-                                                    <Binding Path="PowerDenisty"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <Binding Path="PowerDensity"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </DataTemplate>
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led2Dosage}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
                     <dxlc:LayoutGroup.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="LED3Parameters" HorizontalAlignment="Center"/>
+                            <TextBlock Text="LED3(310nm) Parameters" HorizontalAlignment="Center"/>
                         </DataTemplate>
                     </dxlc:LayoutGroup.HeaderTemplate>
                     <dxlc:LayoutItem Label="Delay Time(min)" Style="{StaticResource LayoutItemStyle}">
@@ -145,26 +141,24 @@
                                           MinValue="0"
                                           Text="{Binding Led3RunTime}"/>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Power Density(mW/cm^2)" Style="{StaticResource LayoutItemStyle}">
+                    <dxlc:LayoutItem Label="Power Density(uW/cm^2)" Style="{StaticResource LayoutItemStyle}">
                         <dxe:ComboBoxEdit ApplyItemTemplateToSelectedItem="True"
                                               IsTextEditable="False"
                                               ItemsSource="{Binding LED3PowerDensites}"
                                               SelectedItem="{Binding Led3SelectedDensity}">
                             <dxe:ComboBoxEdit.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid x:Name="gd" TextElement.Foreground="Black">
-                                        <TextBlock>
-                                            <TextBlock.Text>
-                                                <MultiBinding StringFormat="{} I:{0} PD:{1}">
-                                                    <Binding Path="Current"/>
-                                                    <Binding Path="PowerDenisty"/>
-                                                </MultiBinding>
-                                            </TextBlock.Text>
-                                        </TextBlock>
-                                    </Grid>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <Binding Path="PowerDensity"/>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </DataTemplate>
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:TextEdit Text="{Binding Led3Dosage}"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>

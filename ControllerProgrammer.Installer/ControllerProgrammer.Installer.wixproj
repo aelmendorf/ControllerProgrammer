@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>7e0d08ad-d714-40b9-bdfe-a6fae8c8a882</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>ControllerProgrammer.Installer</OutputName>
+    <OutputName>ControllerInstaller</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -69,8 +69,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Background.jpg" />
+    <Content Include="packages.config" />
+    <Content Include="Assets\dotnet-install.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\GermsBanner.jpg" />
     <Content Include="Assets\SETiLicense.rtf" />
+  </ItemGroup>
+  <ItemGroup>
+    <WixExtension Include="PowerShellWixExtension">
+      <HintPath>..\packages\PowerShellWixExtension.2.0.1\tools\lib\PowerShellWixExtension.dll</HintPath>
+      <Name>PowerShellWixExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />

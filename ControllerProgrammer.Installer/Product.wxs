@@ -31,6 +31,19 @@
     <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit."/>
     <MediaTemplate EmbedCab="yes" />
 
+    <CustomAction Id="SetPolicy"
+      Property="SetExecPolicy"
+      Value="&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoLogo -NonInteractive -InputFormat None -NoProfile -File &quot;Set-ExecutionPolicy -ExecutionPolicy Unrestricted&quot;"
+      Execute="immediate" />
+     <CustomAction Id="InstallDotNet"
+       Property="InstallDotNetCore"
+       Value="&quot;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&quot; &quot;[INSTALLFOLDER]./dotnet-install.ps1&quot;"
+       Execute="immediate" Return="check" />
+    <InstallExecuteSequence>
+      <Custom Action="SetPolicy" After="InstallInitialize" />
+      <Custom Action="InstallDotNet" After="InstallInitialize" />
+    </InstallExecuteSequence>
+
     <Icon Id="seti_logo.ico" SourceFile="$(var.ControllerProgrammer.Main.ProjectDir)\Images\seti_logo.ico"/>
     <Property Id="ARPPRODUCTICON">seti_logo.ico</Property>
 

@@ -9,7 +9,7 @@ namespace ControllerProgrammer.Data.Model {
 
     public enum Wavelength {
         W285,
-        W300,
+        W275,
         W310
     }
 

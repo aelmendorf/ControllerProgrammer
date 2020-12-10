@@ -13,14 +13,6 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ControllerData.db" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ControllerData.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <!--<PackageReference Include="Prism.DryIoc" Version="7.2.0.1422" />-->
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
     <PackageReference Include="DevExpress.WindowsDesktop.Core" Version="19.1.12" />
@@ -33,5 +25,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="ControllerData.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

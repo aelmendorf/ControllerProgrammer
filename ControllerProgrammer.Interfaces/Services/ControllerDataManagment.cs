@@ -19,8 +19,24 @@ namespace ControllerProgrammer.Common.Services {
             return this._context.Leds.Include(e => e.PowerDensities).FirstOrDefault(e => e.LedId == led);
         }
 
-        public IEnumerable<PowerDensity> GetPowerDensities(int led) {
-            return this._context.PowerDensities.Include(e => e.Led).Where(e => e.LedId == led).ToList();
+        public IEnumerable<PowerDensityDto> GetPowerDensities(int led) {
+            return this._context.PowerDensities.Include(e => e.Led).Where(e => e.LedId == led).Select(pd => new PowerDensityDto() {
+                Current = ((double)pd.Current) / 1000,
+                PowerDensity = ((double)pd.PowerDenisty) / 1000,
+                Wavelength = pd.Led.Wavelength,
+                LedId=pd.Led.LedId,
+                PowerDensityId=pd.PowerDensityId
+            });
+        }
+
+        public IEnumerable<PowerDensityDto> GetDensityTable() {
+            return this._context.PowerDensities.Include(e => e.Led).Select(pd => new PowerDensityDto() {
+                Current = ((double)pd.Current) / 1000,
+                PowerDensity = ((double)pd.PowerDenisty) / 1000,
+                Wavelength = pd.Led.Wavelength,
+                LedId = pd.LedId,
+                PowerDensityId = pd.PowerDensityId
+            });
         }
 
 

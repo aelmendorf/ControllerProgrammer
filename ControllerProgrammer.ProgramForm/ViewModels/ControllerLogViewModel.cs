@@ -31,7 +31,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         public DelegateCommand RequestLogCommand { get; private set; }
         public AsyncCommand LoadedCommand { get; private set; }
 
-        ControllerLogViewModel(IControllerManager controller,IEventAggregator eventAggregator) {
+        public ControllerLogViewModel(IControllerManager controller,IEventAggregator eventAggregator) {
             this._controller = controller;
             this._eventAggregator = eventAggregator;
 

@@ -29,17 +29,20 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         private int _led1RunTime;
         private int _led2RunTime;
         private int _led3RunTime;
+        private double _led1Dosage;
+        private double _led2Dosage;
+        private double _led3Dosage;
         private string _programStatus;
         private string _connectionStatus;
         private string _connectButtonText;
         private bool _controllerConnected;
 
-        private ObservableCollection<PowerDensity> _lED1PowerDensites;
-        private ObservableCollection<PowerDensity> _lED2PowerDensites;
-        private ObservableCollection<PowerDensity> _lED3PowerDensites;
-        private PowerDensity _led1SelectedDensity;
-        private PowerDensity _led2SelectedDensity;
-        private PowerDensity _led3SelectedDensity;
+        private ObservableCollection<PowerDensityDto> _lED1PowerDensites;
+        private ObservableCollection<PowerDensityDto> _lED2PowerDensites;
+        private ObservableCollection<PowerDensityDto> _lED3PowerDensites;
+        private PowerDensityDto _led1SelectedDensity;
+        private PowerDensityDto _led2SelectedDensity;
+        private PowerDensityDto _led3SelectedDensity;
         private bool _isSplashScreenShown;
         public DelegateCommand ProgramDeviceCommand { get; private set; }
         public DelegateCommand ReadDeviceMemoryCommand { get; private set; }
@@ -83,30 +86,46 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
 
         public int Led1RunTime { 
             get => this._led1RunTime;
-            set => SetProperty(ref this._led1RunTime, value);
+            set{
+                SetProperty(ref this._led1RunTime, value);
+                if (this.Led1SelectedDensity != null) {
+                    this.Led1Dosage = (this._led1RunTime * 60) + this.Led1SelectedDensity.PowerDensity;
+                }
+                
+            }
         }
 
         public int Led2RunTime { 
             get => this._led2RunTime;
-            set => SetProperty(ref this._led2RunTime, value);
+            set {
+                SetProperty(ref this._led2RunTime, value);
+                if (this.Led2SelectedDensity != null) {
+                    this.Led2Dosage = (this._led2RunTime * 60) + this.Led2SelectedDensity.PowerDensity;
+                }
+            }
         }
 
         public int Led3RunTime {
-            get => this._led3RunTime; 
-            set => SetProperty(ref this._led3RunTime, value);
+            get => this._led3RunTime;
+            set {
+                SetProperty(ref this._led3RunTime, value);
+                if (this.Led3SelectedDensity != null) {
+                    this.Led3Dosage = (this._led3RunTime * 60) + this.Led3SelectedDensity.PowerDensity;
+                }
+            }
         }
 
-        public ObservableCollection<PowerDensity> LED2PowerDensites { 
+        public ObservableCollection<PowerDensityDto> LED2PowerDensites { 
             get => this._lED2PowerDensites;
             set => SetProperty(ref this._lED2PowerDensites, value);
         }
 
-        public ObservableCollection<PowerDensity> LED1PowerDensites {
+        public ObservableCollection<PowerDensityDto> LED1PowerDensites {
             get => this._lED1PowerDensites;
             set => SetProperty(ref this._lED1PowerDensites, value);
         }
 
-        public ObservableCollection<PowerDensity> LED3PowerDensites {
+        public ObservableCollection<PowerDensityDto> LED3PowerDensites {
             get => this._lED3PowerDensites;
             set => SetProperty(ref this._lED3PowerDensites, value);
         }
@@ -131,19 +150,28 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set => SetProperty(ref this._connectButtonText,value);
         }
 
-        public PowerDensity Led1SelectedDensity { 
+        public PowerDensityDto Led1SelectedDensity { 
             get => this._led1SelectedDensity;
-            set => SetProperty(ref this._led1SelectedDensity, value);
+            set {
+                SetProperty(ref this._led1SelectedDensity, value);
+                this.Led1Dosage = (this.Led1RunTime * 60) * this.Led1SelectedDensity.PowerDensity;
+            } 
         }
         
-        public PowerDensity Led2SelectedDensity { 
+        public PowerDensityDto Led2SelectedDensity { 
             get => this._led2SelectedDensity;
-            set => SetProperty(ref this._led2SelectedDensity, value);
+            set {
+                SetProperty(ref this._led2SelectedDensity, value);
+                this.Led2Dosage = (this.Led2RunTime * 60) * this.Led2SelectedDensity.PowerDensity;
+            }
         }
         
-        public PowerDensity Led3SelectedDensity {
+        public PowerDensityDto Led3SelectedDensity {
             get => this._led3SelectedDensity;
-            set => SetProperty(ref this._led3SelectedDensity, value);
+            set {
+                SetProperty(ref this._led3SelectedDensity, value);
+                this.Led3Dosage = (this.Led3RunTime*60) * this.Led3SelectedDensity.PowerDensity;
+            }
         }
 
         public int BoardCycleTime { 
@@ -154,6 +182,20 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         public bool IsSplashScreenShown { 
             get => this._isSplashScreenShown;
             set => SetProperty(ref this._isSplashScreenShown, value);
+        }
+        public double Led1Dosage { 
+            get => this._led1Dosage; 
+            set => SetProperty(ref this._led1Dosage,value);
+        }
+
+        public double Led2Dosage { 
+            get => this._led2Dosage;
+            set => SetProperty(ref this._led2Dosage, value);
+        }
+
+        public double Led3Dosage { 
+            get => this._led3Dosage;
+            set => SetProperty(ref this._led3Dosage, value);
         }
 
         public void UpdateConnected() {
@@ -187,15 +229,15 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             recipe.CycleTime = this.BoardCycleTime;
             recipe.Led1Delay = this.Led1DelayTime;
             recipe.Led1RunTime = this.Led1RunTime;
-            recipe.Led1Current = this.Led1SelectedDensity.Current;
+            recipe.Led1Current = (int)(this.Led1SelectedDensity.Current*1000);
 
             recipe.Led2Delay = this.Led2DelayTime;
             recipe.Led2RunTime = this.Led2RunTime;
-            recipe.Led2Current = this.Led2SelectedDensity.Current;
+            recipe.Led2Current = (int)(this.Led2SelectedDensity.Current * 1000);
 
             recipe.Led3Delay = this.Led3DelayTime;
             recipe.Led3RunTime = this.Led3RunTime;
-            recipe.Led3Current = this.Led3SelectedDensity.Current;
+            recipe.Led3Current = (int)(this.Led3SelectedDensity.Current * 1000);
 
             var response=this._controller.ProgramController(recipe);
 
@@ -238,7 +280,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                                 this._dispatcher.BeginInvoke(() => {
                                     this.Led1DelayTime = Convert.ToInt32(parameters[0]);
                                     this.Led1RunTime = Convert.ToInt32(parameters[1]);
-                                    var current = Convert.ToInt32(parameters[2]);
+                                    var current = (((double)Convert.ToInt32(parameters[2]))/1000);
                                     this.Led1SelectedDensity = this.LED1PowerDensites.FirstOrDefault(e => e.Current == current);
                                 });
                                 break;
@@ -247,7 +289,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                                 this._dispatcher.BeginInvoke(() => {
                                     this.Led2DelayTime = Convert.ToInt32(parameters[0]);
                                     this.Led2RunTime = Convert.ToInt32(parameters[1]);
-                                    var current = Convert.ToInt32(parameters[2]);
+                                    var current = (((double)Convert.ToInt32(parameters[2])) / 1000);
                                     this.Led2SelectedDensity = this.LED2PowerDensites.FirstOrDefault(e => e.Current == current);
                                 });
                                 break;
@@ -256,7 +298,8 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                                 this._dispatcher.BeginInvoke(() => {
                                     this.Led3DelayTime = Convert.ToInt32(parameters[0]);
                                     this.Led3RunTime = Convert.ToInt32(parameters[1]);
-                                    var current = Convert.ToInt32(parameters[2]);
+                                    //var current = Convert.ToInt32(parameters[2]);
+                                    var current = (((double)Convert.ToInt32(parameters[2])) / 1000);
                                     this.Led3SelectedDensity = this.LED3PowerDensites.FirstOrDefault(e => e.Current == current);
                                 });
                                 break;
@@ -296,17 +339,17 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                 this.Led3RunTime = 0;
 
                 var led1Pd = this._controllerDataManager.GetPowerDensities(1);
-                this.LED1PowerDensites = new ObservableCollection<PowerDensity>(led1Pd);
+                this.LED1PowerDensites = new ObservableCollection<PowerDensityDto>(led1Pd);
                 this.LED1PowerDensites.OrderBy(e => e.Current);
                 this.Led1SelectedDensity = this.LED1PowerDensites.First();
 
                 var led2Pd = this._controllerDataManager.GetPowerDensities(2);
-                this.LED2PowerDensites = new ObservableCollection<PowerDensity>(led2Pd);
+                this.LED2PowerDensites = new ObservableCollection<PowerDensityDto>(led2Pd);
                 this.LED2PowerDensites.OrderBy(e => e.Current);
                 this.Led2SelectedDensity = this.LED2PowerDensites.First();
 
                 var led3Pd = this._controllerDataManager.GetPowerDensities(3);
-                this.LED3PowerDensites = new ObservableCollection<PowerDensity>(led3Pd);
+                this.LED3PowerDensites = new ObservableCollection<PowerDensityDto>(led3Pd);
                 this.LED3PowerDensites.OrderBy(e => e.Current);
                 this.Led3SelectedDensity = this.LED3PowerDensites.First();
                 this._dispatcher.BeginInvoke(() => { this.IsSplashScreenShown = false; });

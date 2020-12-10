@@ -7,6 +7,7 @@
       <!-- Shortcut -->
       <ComponentRef Id="MainAppShortcut" />
       <ComponentRef Id="INSTALLFOLDER_Permission"/>
+      <ComponentRef Id="PowerShellScript"/>
     </ComponentGroup>
     <!-- Installed files -->
     <DirectoryRef Id="INSTALLFOLDER" FileSource="..\ControllerProgrammer.Main\bin\Release\netcoreapp3.1\publish\">
@@ -31,6 +32,10 @@
         <!--Remove start menu items -->
         <RemoveFolder Id="RemoveStartMenu" Directory="InstallProgramMenuFolder" On="uninstall" />
 
+      </Component>
+
+      <Component Id="PowerShellScript">
+        <File Id="DotNetInstallPS" Source="$(var.ProjectDir)Assets\dotnet-install.ps1" KeyPath="yes" />
       </Component>
 
     </DirectoryRef>

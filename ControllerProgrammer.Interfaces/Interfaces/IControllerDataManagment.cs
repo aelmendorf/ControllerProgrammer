@@ -16,8 +16,18 @@ namespace ControllerProgrammer.Common.Interfaces {
         }
     }
 
+    public class PowerDensityDto {
+        public int PowerDensityId { get; set; }
+        public int LedId { get; set; }
+        public Wavelength Wavelength { get; set; }
+        public double Current { get; set; }
+        public double PowerDensity { get; set; }
+
+    }
+
     public interface IControllerDataManagment {
-        IEnumerable<PowerDensity> GetPowerDensities(int led);
+        IEnumerable<PowerDensityDto> GetPowerDensities(int led);
+        IEnumerable<PowerDensityDto> GetDensityTable();
         Led GetLED(int LED);
         DataManagmentResponse SavePowerDensities(int led, IEnumerable<PowerDensity> powerDensities);
     }
