@@ -44,10 +44,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WixExtension Include="WixNetFxExtension">
-      <HintPath>$(WixExtDir)\WixNetFxExtension.dll</HintPath>
-      <Name>WixNetFxExtension</Name>
-    </WixExtension>
     <WixExtension Include="WixUtilExtension">
       <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
       <Name>WixUtilExtension</Name>
@@ -55,10 +51,6 @@
     <WixExtension Include="WixUIExtension">
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
-    </WixExtension>
-    <WixExtension Include="WixSqlExtension">
-      <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
-      <Name>WixSqlExtension</Name>
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
@@ -69,19 +61,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Background.jpg" />
-    <Content Include="packages.config" />
-    <Content Include="Assets\dotnet-install.ps1">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\GermsBanner.jpg" />
     <Content Include="Assets\SETiLicense.rtf" />
   </ItemGroup>
-  <ItemGroup>
-    <WixExtension Include="PowerShellWixExtension">
-      <HintPath>..\packages\PowerShellWixExtension.2.0.1\tools\lib\PowerShellWixExtension.dll</HintPath>
-      <Name>PowerShellWixExtension</Name>
-    </WixExtension>
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(WixTargetsPath)" Condition=" '$(WixTargetsPath)' != '' " />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets" Condition=" '$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\Wix.targets') " />
   <Target Name="EnsureWixToolsetInstalled" Condition=" '$(WixTargetsImported)' != 'true' ">

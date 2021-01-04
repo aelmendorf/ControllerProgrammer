@@ -87,7 +87,7 @@
                                                       HorizontalContentAlignment="Left"/>
                             </dxg:GridColumn.EditSettings>
                         </dxg:GridColumn>
-                        <dxg:GridColumn Header="Power Density(mW/cm^2)" FieldName="PowerDensity" HorizontalHeaderContentAlignment="Center" >
+                        <dxg:GridColumn Header="Power Density(uW/cm^2)" FieldName="PowerDensity" HorizontalHeaderContentAlignment="Center" >
                             <dxg:GridColumn.EditSettings>
                                 <dxe:TextEditSettings MaskType="Numeric"
                                                       MaskUseAsDisplayFormat="True"

@@ -49,6 +49,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             if (this._controller.IsConnected()) {
                 this._controller.Disconnect();
                 this.ConnectButtonText = "Connect";
+                this.ConnectionStatus = "Disconnected";
                 this._eventAggregator.GetEvent<USBDisconnectedEvent>().Publish();
             } else {
                 var response=this._controller.Connect();

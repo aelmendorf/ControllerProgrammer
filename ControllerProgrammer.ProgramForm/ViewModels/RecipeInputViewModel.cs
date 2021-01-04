@@ -22,6 +22,8 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         private IControllerManager _controller;
         private IEventAggregator _eventAggregator;
 
+        private static double Factor = 0.00001;
+
         private int _boardCycleTime;
         private int _led1DelayTime;
         private int _led2DelayTime;
@@ -89,7 +91,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set{
                 SetProperty(ref this._led1RunTime, value);
                 if (this.Led1SelectedDensity != null) {
-                    this.Led1Dosage = (this._led1RunTime * 60) + this.Led1SelectedDensity.PowerDensity;
+                    this.Led1Dosage = ((this._led1RunTime * 60) * this.Led1SelectedDensity.PowerDensity)*Factor;
                 }
                 
             }
@@ -100,7 +102,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set {
                 SetProperty(ref this._led2RunTime, value);
                 if (this.Led2SelectedDensity != null) {
-                    this.Led2Dosage = (this._led2RunTime * 60) + this.Led2SelectedDensity.PowerDensity;
+                    this.Led2Dosage = ((this._led2RunTime * 60) * this.Led2SelectedDensity.PowerDensity)*Factor;
                 }
             }
         }
@@ -110,7 +112,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set {
                 SetProperty(ref this._led3RunTime, value);
                 if (this.Led3SelectedDensity != null) {
-                    this.Led3Dosage = (this._led3RunTime * 60) + this.Led3SelectedDensity.PowerDensity;
+                    this.Led3Dosage = ((this._led3RunTime * 60) * this.Led3SelectedDensity.PowerDensity)*Factor;
                 }
             }
         }
@@ -154,7 +156,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             get => this._led1SelectedDensity;
             set {
                 SetProperty(ref this._led1SelectedDensity, value);
-                this.Led1Dosage = (this.Led1RunTime * 60) * this.Led1SelectedDensity.PowerDensity;
+                this.Led1Dosage = ((this.Led1RunTime * 60) * this.Led1SelectedDensity.PowerDensity)*Factor;
             } 
         }
         
@@ -162,7 +164,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             get => this._led2SelectedDensity;
             set {
                 SetProperty(ref this._led2SelectedDensity, value);
-                this.Led2Dosage = (this.Led2RunTime * 60) * this.Led2SelectedDensity.PowerDensity;
+                this.Led2Dosage = ((this.Led2RunTime * 60) * this.Led2SelectedDensity.PowerDensity)*Factor;
             }
         }
         
@@ -170,7 +172,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             get => this._led3SelectedDensity;
             set {
                 SetProperty(ref this._led3SelectedDensity, value);
-                this.Led3Dosage = (this.Led3RunTime*60) * this.Led3SelectedDensity.PowerDensity;
+                this.Led3Dosage = ((this.Led3RunTime*60) * this.Led3SelectedDensity.PowerDensity)*Factor;
             }
         }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix  xmlns="http://schemas.microsoft.com/wix/2006/wi">
-
-  <?if $(var.Platform)="x64"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+ <?if $(var.Platform)="x64"?>
   <?define ProductCode="{985B3276-8A00-4ECB-A091-72ACFAB8F7E0}"?>
   <?else?>
   <?define ProductCode="{0DF45F18-B2A7-436B-9D76-C7E8327BB03F}"?>

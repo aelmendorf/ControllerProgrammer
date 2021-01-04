@@ -80,8 +80,13 @@
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
-                        <dxe:TextEdit Text="{Binding Led1Dosage}"/>
+                    <dxlc:LayoutItem Label="Dosage(kJ/m²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Text="{Binding Led1Dosage}"                                     
+                                      IsReadOnly="True" 
+                                      MaskType="Numeric" 
+                                      Mask="n3" 
+                                      MaskUseAsDisplayFormat="True" 
+                                      ShowEditorButtons="False"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
 
@@ -119,8 +124,13 @@
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
-                        <dxe:TextEdit Text="{Binding Led2Dosage}"/>
+                    <dxlc:LayoutItem Label="Dosage(kJ/m²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Text="{Binding Led2Dosage}"                                       
+                                      IsReadOnly="True" 
+                                      MaskType="Numeric" 
+                                      Mask="n3" 
+                                      MaskUseAsDisplayFormat="True" 
+                                      ShowEditorButtons="False"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
                 <dxlc:LayoutGroup  View="GroupBox" Orientation="Horizontal">
@@ -157,8 +167,13 @@
                             </dxe:ComboBoxEdit.ItemTemplate>
                         </dxe:ComboBoxEdit>
                     </dxlc:LayoutItem>
-                    <dxlc:LayoutItem Label="Dosage(WSec/cm²)" Style="{StaticResource LayoutItemStyle}">
-                        <dxe:TextEdit Text="{Binding Led3Dosage}"/>
+                    <dxlc:LayoutItem Label="Dosage(kJ/m²)" Style="{StaticResource LayoutItemStyle}">
+                        <dxe:SpinEdit Text="{Binding Led3Dosage}" 
+                                      IsReadOnly="True" 
+                                      MaskType="Numeric" 
+                                      Mask="n3" 
+                                      MaskUseAsDisplayFormat="True" 
+                                      ShowEditorButtons="False"/>
                     </dxlc:LayoutItem>
                 </dxlc:LayoutGroup>
             </dxlc:LayoutGroup>
