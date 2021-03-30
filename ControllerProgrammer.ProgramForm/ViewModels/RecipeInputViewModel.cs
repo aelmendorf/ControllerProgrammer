@@ -31,6 +31,8 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
         private int _led1RunTime;
         private int _led2RunTime;
         private int _led3RunTime;
+        private int _boardCycleCount;
+
         private double _led1Dosage;
         private double _led2Dosage;
         private double _led3Dosage;
@@ -200,6 +202,11 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             set => SetProperty(ref this._led3Dosage, value);
         }
 
+        public int BoardCycleCount { 
+            get => this._boardCycleCount; 
+            set => SetProperty(ref this._boardCycleCount,value); 
+        }
+
         public void UpdateConnected() {
             this.ControllerConnected = true;
         }
@@ -228,6 +235,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
 
         public void ProgramControllerHandler() {
             ControllerRecipe recipe = new ControllerRecipe();
+            recipe.CycleCount = this.BoardCycleCount;
             recipe.CycleTime = this.BoardCycleTime;
             recipe.Led1Delay = this.Led1DelayTime;
             recipe.Led1RunTime = this.Led1RunTime;
@@ -242,7 +250,6 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
             recipe.Led3Current = (int)(this.Led3SelectedDensity.Current * 1000);
 
             var response=this._controller.ProgramController(recipe);
-
         }
 
         private void UsbConnectedHandler() {
@@ -311,10 +318,11 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                                 break;
                             }
                     }
-                } else if (parameters.Count() == 1) {
+                } else if (parameters.Count() == 2) {
                     this._dispatcher.BeginInvoke(() => {
                         try {
-                            this.BoardCycleTime = Convert.ToInt32(parameters[0]);
+                            this.BoardCycleCount = Convert.ToInt32(parameters[0]);
+                            this.BoardCycleTime = Convert.ToInt32(parameters[1]);
                         } catch { }
 
                     });
@@ -331,6 +339,7 @@ namespace ControllerProgrammer.ProgramForm.ViewModels {
                 this.ProgramStatus = "Not Connected";
                 this.ConnectionStatus = "Not Connected";
                 this.ConnectButtonText = "Connect";
+                this.BoardCycleCount = 0;
                 this.BoardCycleTime = 0;
                 this.Led1DelayTime = 0;
                 this.Led2DelayTime = 0;

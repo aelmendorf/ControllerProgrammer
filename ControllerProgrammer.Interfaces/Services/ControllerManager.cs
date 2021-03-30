@@ -78,16 +78,8 @@ namespace ControllerProgrammer.Common.Services {
 
         public ControllerManagerResponse ProgramController(ControllerRecipe recipe) {
             if (this._controller.IsOpen) {
-                //StringBuilder buffer = new StringBuilder();
-                //buffer.AppendFormat("p;{0};{1},{2},{3};{4},{5},{6};{7},{8},{9};\r",
-                //    recipe.Led1Delay,recipe.Led1RunTime,recipe.Led1Current,
-                //    recipe.Led2Delay, recipe.Led2RunTime, recipe.Led2Current,
-                //    recipe.Led3Delay, recipe.Led3RunTime, recipe.Led3Current);
-                //var bytes=Encoding.ASCII.GetBytes(buffer.ToString());
-                var buffer=recipe.GetBuffer();
-                
+                var buffer=recipe.GetBuffer();           
                 try {
-                    //this._controller
                     this._controller.Write(buffer);
                     return new ControllerManagerResponse(true, "Success: Command Sent");
                 } catch {

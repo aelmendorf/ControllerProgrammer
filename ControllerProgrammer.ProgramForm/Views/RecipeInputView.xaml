@@ -38,6 +38,12 @@
                         <TextBlock Text="Board Paramters"  HorizontalAlignment="Center"/>
                     </DataTemplate>
                 </dxlc:LayoutGroup.HeaderTemplate>
+                <dxlc:LayoutItem Label="Board Cycles(Number of Cycles)" Style="{StaticResource LayoutItemStyle}" >
+                    <dxe:SpinEdit Mask="d"
+                                  MaskType="Numeric"
+                                  MinValue="0"
+                                  Text="{Binding BoardCycleCount}"/>
+                </dxlc:LayoutItem>
                 <dxlc:LayoutItem Label="Board Cycle Time(hrs)" Style="{StaticResource LayoutItemStyle}" >
                     <dxe:SpinEdit Mask="d"
                                   MaskType="Numeric"

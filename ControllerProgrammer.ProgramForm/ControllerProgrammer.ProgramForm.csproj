@@ -4,6 +4,7 @@
     <Platform>x86</Platform>
     <UseWPF>true</UseWPF>
     <AssemblyName>ControllerProgrammer.ProgramForm</AssemblyName>
+    <FileVersion>1.0.8.33248</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>

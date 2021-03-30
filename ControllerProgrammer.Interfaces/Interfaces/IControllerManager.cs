@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ControllerProgrammer.Common.Interfaces {
     public class ControllerRecipe {
+        public int CycleCount { get; set; }
         public int CycleTime { get; set; }
         public int Led1Delay { get; set; }
         public int Led1RunTime { get; set; }
@@ -21,8 +22,8 @@ namespace ControllerProgrammer.Common.Interfaces {
 
         public string GetBuffer() {
             StringBuilder buffer = new StringBuilder();
-            buffer.AppendFormat("p;{0};{1},{2},{3};{4},{5},{6};{7},{8},{9};\r",
-                this.CycleTime,
+            buffer.AppendFormat("p;{0},{1};{2},{3},{4};{5},{6},{7};{8},{9},{10};\r",
+                this.CycleCount,this.CycleTime,
                 this.Led1Delay,this.Led1RunTime,this.Led1Current,
                 this.Led2Delay, this.Led2RunTime, this.Led2Current,
                 this.Led3Delay, this.Led3RunTime, this.Led3Current);
